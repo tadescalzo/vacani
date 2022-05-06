@@ -420,6 +420,10 @@ body {
           padding: 1rem;
 
         }
+        #map {
+          height: 400px;
+          width: 100%;
+        }
         .modalInfoInd,
         .modalInfoCheck {
           height: fit-content;
@@ -462,6 +466,9 @@ body {
         }
         .modalInfoDesc {
           width: 90%;
+          list-style: none;
+          text-align: left;
+          text-transform: capitalize;
           .deleteDesc{
             display: none;
           }

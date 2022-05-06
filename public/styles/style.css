@@ -649,6 +649,11 @@ body {
   padding: 1rem;
 }
 
+.main .modal--lower__info #map {
+  height: 400px;
+  width: 100%;
+}
+
 .main .modal--lower__info .modalInfoInd,
 .main .modal--lower__info .modalInfoCheck {
   height: -webkit-fit-content;
@@ -723,6 +728,9 @@ body {
 
 .main .modal--lower__info .modalInfoDesc {
   width: 90%;
+  list-style: none;
+  text-align: left;
+  text-transform: capitalize;
 }
 
 .main .modal--lower__info .modalInfoDesc .deleteDesc {
