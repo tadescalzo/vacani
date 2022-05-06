@@ -66,16 +66,31 @@ let addPhoto = document.querySelector("#addPhoto");
 let showDesc = document.querySelector("#showDesc");
 let descTest = "";
 const global = db.collection("global");
+const contador = db.collection("info").doc("contador");
+let map = document.getElementById("map");
 
 /*FUNCION CARGAR SERVICIOS DENTRO DEL MODAL*/
-const loadInfo = (services) => {
+const loadInfo = (services, desc) => {
   let checkboxes = document.querySelector(".modalInfoCheck");
+  let modalInfoDesc = document.querySelector(".modalInfoDesc");
   checkboxes.innerHTML = " ";
   for (service in services) {
     if (services[service] == true) {
       checkboxes.innerHTML += `<li><i class="fa-solid fa-square-check"></i>${service}</li>`;
     }
   }
+  modalInfoDesc.innerHTML = desc;
+  // Initialize and add the map
+  function initMap() {
+    // The location of Uluru
+    // The marker, positioned at Uluru
+    const marker = new google.maps.Marker({
+      position: uluru,
+      map: map,
+    });
+  }
+
+  window.initMap = initMap;
 };
 
 /*FUNCION ABRIR MODAL POR ITEM*/
@@ -93,13 +108,13 @@ const clickFunction = (param, container, mainTitle) => {
       reference.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let queryResult = doc.data();
-          console.log(queryResult);
           /*SI TOCAMOS LA CARD Y NO ES UNO NI OTRO SE ABRE EL MODAL*/
           if (
             child.className == "card--bottom" ||
             child.className == "carousel-inner"
           ) {
             modal.style.display = "flex";
+            modal.style.opacity = 1;
             modal.innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
             container.style.opacity = 0;
             mainTitle.style.opacity = 0;
@@ -127,142 +142,162 @@ const clickFunction = (param, container, mainTitle) => {
             } = queryResult;
             let wppTxt = title.split(" ").join("+");
             wppTxt += `+${dir}`;
-
             /*CARGAMOS LA PANTALLA DEL ITEM SELECCIONADO*/
-            modal.innerHTML = `<span class="modal--close">X</span>
+            setTimeout(() => {
+              modal.innerHTML = `<span class="modal--close">X</span>
           
-          <div class='modal--upper'>
-          <div class='modal--upper__header'>
-              <div class='upperLeft'>
-              <h2 class="modalTitle">
-                ${title}
-              </h2>
-              <h5><i class="fa-solid fa-location-dot"></i> ${dir}</h5>
-              </div>
-              <div class='upperRight'>
-              <div class='column'>
-              <span class="totalPrice">${price}</span>
-              ${
-                exp != 0
-                  ? `<span class="card--bottom__exp">+${exp}</span>`
-                  : `<span class="card--bottom__exp">Sin Expensas</span>`
-              }
-              </div>
-              <p class='modalInfoType'><strong>${type}</strong></p>
-              </div> 
-          </div>
-            <div class="modal--upper__imgs">
-              <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img
-                      src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
-                      class="d-block w-100"
-                      alt="..."
-                    />
+              <div class='modal--upper'>
+              <div class='modal--upper__header'>
+                  <div class='upperLeft'>
+                  <h2 class="modalTitle">
+                    ${title}
+                  </h2>
+                  <h5><i class="fa-solid fa-location-dot"></i> ${dir}</h5>
                   </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
-                      class="d-block w-100"
-                      alt="..."
-                    />
+                  <div class='upperRight'>
+                  <div class='column'>
+                  <span class="totalPrice">${price}</span>
+                  ${
+                    exp != 0
+                      ? `<span class="card--bottom__exp">+${exp}</span>`
+                      : `<span class="card--bottom__exp">Sin Expensas</span>`
+                  }
                   </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
-                      class="d-block w-100"
-                      alt="..."
-                    />
+                  <p class='modalInfoType'><strong>${type}</strong></p>
+                  </div> 
+              </div>
+                <div class="modal--upper__imgs">
+                  <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img
+                          src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
+                          class="d-block w-100"
+                          alt="..."
+                        />
+                      </div>
+                      <div class="carousel-item">
+                        <img
+                          src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
+                          class="d-block w-100"
+                          alt="..."
+                        />
+                      </div>
+                      <div class="carousel-item">
+                        <img
+                          src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
+                          class="d-block w-100"
+                          alt="..."
+                        />
+                      </div>
+                    </div>
+                    <button
+                      class="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#carousel1"
+                      data-bs-slide="prev"
+                    >
+                      <span
+                        class="carousel-control-prev-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      class="carousel-control-next"
+                      type="button"
+                      data-bs-target="#carousel1"
+                      data-bs-slide="next"
+                    >
+                      <span
+                        class="carousel-control-next-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
                   </div>
                 </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carousel1"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carousel1"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-            </div>
-            </div>
-            <div class='modal--lower'>
-            <div class="modal--lower__info">
-              <div class="modalInfo">
-                <span>INFORMACION DE LA PROPIEDAD</span>
-                <hr class="modalInfoLine" />
-                <div class="modalInfoInd">
-                  <p><i class="fa-solid fa-vector-square"></i> Metros totales: <strong>${mets}</strong></p>
-                  <p><i class="fa-solid fa-vector-square"></i> Metros Cubiertos: <strong>${usedMets}</strong></p>
-                  <p><i class="fa-solid fa-bath"></i> Ambientes: <strong>${rooms}</strong></p>
-                  <p><i class="fa-solid fa-car"></i> Cochera: <strong>${garage}</strong></p>
-                  <p><i class="fa-solid fa-calendar-days"></i> Antiguedad:<br><strong>${old}</strong></p>
-                  <p><i class="fa-solid fa-money-bill-1-wave"></i> Valor: <strong>${price}</strong></p>
                 </div>
-              </div>
-              <div class="modalInfo">
-                <span>DESCRIPCION DE LA PROPIEDAD</span>
-                <hr class="modalInfoLine" />
-                <ul class="modalInfoDesc">
+                <div class='modal--lower'>
+                <div class="modal--lower__info">
+                  <div class="modalInfo">
+                    <span>INFORMACION DE LA PROPIEDAD</span>
+                    <hr class="modalInfoLine" />
+                    <div class="modalInfoInd">
+                      <p><i class="fa-solid fa-vector-square"></i> Metros totales: <strong>${mets}</strong></p>
+                      <p><i class="fa-solid fa-vector-square"></i> Metros Cubiertos: <strong>${usedMets}</strong></p>
+                      <p><i class="fa-solid fa-bath"></i> Ambientes: <strong>${rooms}</strong></p>
+                      <p><i class="fa-solid fa-car"></i> Cochera: <strong>${garage}</strong></p>
+                      <p><i class="fa-solid fa-calendar-days"></i> Antiguedad:<br><strong>${old}</strong></p>
+                      <p><i class="fa-solid fa-money-bill-1-wave"></i> Valor: <strong>${price}</strong></p>
+                    </div>
+                  </div>
+                  <div class="modalInfo">
+                    <span>DESCRIPCION DE LA PROPIEDAD</span>
+                    <hr class="modalInfoLine" />
+                    <ul class="modalInfoDesc">
+    
+                    </ul>
+                  </div>
+                  <div class="modalInfo">
+                    <span>AMENITIES & SERVICIOS</span>
+                    <hr class="modalInfoLine" />
+                    <ul class="modalInfoCheck">
+                    </ul>
+                  </div>
+                  <div class="modalInfo">
+                    <span>UBICACION</span>
+                    <hr class="modalInfoLine" />
+                    <div class="modalInfoInd">
+                      <img src="https://i.blogs.es/b4dd5c/maps/1366_2000.png" alt="" />
+                      <div id="map"></div>
+                    </div>
+                  </div>
+                </div>
+                <form action="submit">
+                    <h3>Consulta por esta propiedad</h3>
+                    <label for="submitName">Nombre y apellido:</label>
+                    <input type="text" id="submitName" />
+                    <label for="submitMail">Mail de contacto:</label>
+                    <input type="email" id="submitMail" />
+                    <label for="submitPhone">Telefono de contacto:</label>
+                    <input type="text" id="submitPhone" />
+                    <input
+                      type="button"
+                      value="Quiero que me contacten"
+                      id="submitBtn"
+                    />
+                    <a
+                      href="https://api.whatsapp.com/send/?phone=5491130105048&text=Me+interesa+${wppTxt}"
+                      id="wppBtn"
+                      target="_blank"
+                      >Enviar Whatsapp</a
+                    >
+                    <img src="images/logoNav.svg" alt="" />
+                  </form>
+                  </div>`;
+            }, 500);
 
-                </ul>
-              </div>
-              <div class="modalInfo">
-                <span>AMENITIES & SERVICIOS</span>
-                <hr class="modalInfoLine" />
-                <ul class="modalInfoCheck">
-                </ul>
-              </div>
-              <div class="modalInfo">
-                <span>UBICACION</span>
-                <hr class="modalInfoLine" />
-                <div class="modalInfoInd">
-                  <img src="https://i.blogs.es/b4dd5c/maps/1366_2000.png" alt="" />
-                </div>
-              </div>
-            </div>
-            <form action="submit">
-                <h3>Consulta por esta propiedad</h3>
-                <label for="submitName">Nombre y apellido:</label>
-                <input type="text" id="submitName" />
-                <label for="submitMail">Mail de contacto:</label>
-                <input type="email" id="submitMail" />
-                <label for="submitPhone">Telefono de contacto:</label>
-                <input type="text" id="submitPhone" />
-                <input
-                  type="button"
-                  value="Quiero que me contacten"
-                  id="submitBtn"
-                />
-                <a
-                  href="https://api.whatsapp.com/send/?phone=5491130105048&text=Me+interesa+${wppTxt}"
-                  id="wppBtn"
-                  target="_blank"
-                  >Enviar Whatsapp</a
-                >
-                <img src="images/logoNav.svg" alt="" />
-              </form>
-              </div>`;
             container.style.display = "none";
             mainTitle.style.display = "none";
             header.style.display = "none";
+            setTimeout(() => {
+              /*FUNCION CERRAR MODAL*/
+              let closeModal = document.querySelector(".modal--close");
+              closeModal.addEventListener("click", () => {
+                modal.style.opacity = 0;
+                container.style.display = "flex";
+                mainTitle.style.display = "flex";
+                header.style.display = "flex";
+                setTimeout(() => {
+                  modal.style.display = "none";
+                  container.style.opacity = 1;
+                  mainTitle.style.opacity = 1;
+                  header.style.opacity = 1;
+                }, 500);
+              });
+              loadInfo(services, desc);
+            }, 600);
           }
         });
       });
@@ -558,145 +593,6 @@ navBuy.addEventListener("click", (e) => {
 });
 
 /*FUNCION MAIN, PETICION DE INFORMACION*/
-const data = new Promise((resolve, reject) => {
-  fetch("data.json")
-    .then((response) => response.json())
-    .then((data) => {
-      let items = data.data.items;
-
-      /*BUSQUEDA DE ITEMS POR FILTROS*/
-      mainBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        /*SCROLL A MAIN*/
-        scroll({
-          top: 320,
-          behavior: "smooth",
-        });
-        main.innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
-        let filterResult = [];
-        let cityFinal = cityFilter.value;
-        let typeFinal = typeFilter.value;
-        let propFinal = propFilter.value;
-        console.log(propFinal);
-        for (item in items) {
-          if (cityFinal == "Todas") {
-            if (
-              items[item].prop == propFinal &&
-              items[item].type == typeFinal
-            ) {
-              filterResult.push(items[item]);
-            }
-          } else {
-            if (
-              items[item].city == cityFinal &&
-              items[item].type == typeFinal &&
-              items[item].prop == propFinal
-            ) {
-              filterResult.push(items[item]);
-            }
-          }
-        }
-        console.log(filterResult.length);
-        /*ESPERAMOS MEDIO SEGUNDO ANTES DE MOSTRAR EL RESULTADO DE LA BUSQUEDA*/
-        setTimeout(() => {
-          main.innerHTML = `<h2 class="main--title">${cityFinal}</h2><div class="main--container"></div>`;
-          if (filterResult.length != 0) {
-            filterResult.forEach((result) => {
-              /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
-              let container = document.querySelector(".main--container");
-              container.innerHTML += `<article class="card" data-item=${
-                result.id
-              }>
-                  <div class="card--top">
-                    <div id="carousel${result.id}" data-item=${
-                result.id
-              } class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <img
-                            src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
-                            class="d-block w-100"
-                            alt="..."
-                          />
-                        </div>
-                        <div class="carousel-item">
-                          <img
-                            src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
-                            class="d-block w-100"
-                            alt="..."
-                          />
-                        </div>
-                        <div class="carousel-item">
-                          <img
-                            src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
-                            class="d-block w-100"
-                            alt="..."
-                          />
-                        </div>
-                      </div>
-                      <button
-                        class="carousel-control-prev"
-                        type="button"
-                        data-bs-target="#carousel${result.id}"
-                        data-bs-slide="prev"
-                      >
-                        <span
-                          class="carousel-control-prev-icon"
-                          aria-hidden="true"
-                        ></span>
-                        <span class="visually-hidden">Previous</span>
-                      </button>
-                      <button
-                        class="carousel-control-next"
-                        type="button"
-                        data-bs-target="#carousel${result.id}"
-                        data-bs-slide="next"
-                      >
-                        <span
-                          class="carousel-control-next-icon"
-                          aria-hidden="true"
-                        ></span>
-                        <span class="visually-hidden">Next</span>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="card--bottom">
-                    <p class="card--bottom__desc">
-                      ${result.title}
-                    </p>
-                    <span class="card--bottom__price">${result.price}</span>
-                    ${
-                      result.exp != 0
-                        ? `<span class="card--bottom__exp">+${result.exp}</span>`
-                        : `<span class="card--bottom__exp">Sin Expensas</span>`
-                    }
-                    <div class="card--bottom__line"></div>
-                    <div class="card--bottom__info">
-                      <p><strong>40</strong> m² totales</p>
-                      <p><strong>1</strong> baños</p>
-                      <p><strong>40</strong> m² cubiertos</p>
-                      <p><strong>1</strong> ambientes</p>
-                    </div>
-                  </div>
-                </article>`;
-            });
-          } else {
-            /*SI NO HAY RESULTADOS MOSTRAMOS LO SIGUIENTE*/
-            console.log("hay 0 objetos");
-            let container = document.querySelector(".main--container");
-            container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
-          }
-        }, 500);
-        /*FUNCION CLICK*/
-        setTimeout(() => {
-          clickFunction(items, modal, body);
-        }, 1000);
-      });
-    });
-}).catch((err) => {
-  reject(err);
-});
-
 global.get().then((querySnapshot) => {
   querySnapshot.forEach((item) => {
     let prop = item.data();
@@ -820,132 +716,145 @@ loginBtn.addEventListener("click", (e) => {
     });
 });
 
-/*OPEN UPLOAD MODAL*/
-openUpload.addEventListener("click", () => {
-  menu.style.opacity = 0;
-  setTimeout(() => {
-    menu.style.display = "none";
-    uploadModal.style.display = "flex";
-  }, 500);
-});
+contador.get().then((doc) => {
+  let id = doc.data();
+  /*OPEN UPLOAD MODAL*/
+  openUpload.addEventListener("click", () => {
+    menu.style.opacity = 0;
+    setTimeout(() => {
+      menu.style.display = "none";
+      uploadModal.style.display = "flex";
+    }, 500);
+  });
 
-/*FIRST CONFIRM UPLOAD*/
-submitForm1.addEventListener("click", () => {
-  formUno.style.opacity = 0;
-  setTimeout(() => {
-    formUno.style.display = "none";
-    formDos.style.display = "flex";
-  }, 500);
-});
-/*SECOND CONFIRM UPLOAD*/
-submitForm2.addEventListener("click", () => {
-  formDos.style.opacity = 0;
-  setTimeout(() => {
-    formDos.style.display = "none";
-    formTres.style.display = "flex";
-  }, 500);
-});
-/*ADD DESC*/
-addDesc.addEventListener("click", () => {
-  let descResult = itemDesc.value;
-  showDesc.innerHTML = "";
-  descTest += `<li class="itemDesc"><span>${descResult}</span><input type='button' value='Eliminar' class="deleteDesc" /></li>`;
-  showDesc.innerHTML = descTest;
-  itemDesc.value = "";
-  let deleteDesc = document.querySelectorAll(".deleteDesc");
+  /*FIRST CONFIRM UPLOAD*/
+  submitForm1.addEventListener("click", () => {
+    formUno.style.opacity = 0;
+    setTimeout(() => {
+      formUno.style.display = "none";
+      formDos.style.display = "flex";
+    }, 500);
+  });
+  /*SECOND CONFIRM UPLOAD*/
+  submitForm2.addEventListener("click", () => {
+    formDos.style.opacity = 0;
+    setTimeout(() => {
+      formDos.style.display = "none";
+      formTres.style.display = "flex";
+    }, 500);
+  });
+  /*ADD DESC*/
+  addDesc.addEventListener("click", () => {
+    let descResult = itemDesc.value;
+    showDesc.innerHTML = "";
+    descTest += `<li class="itemDesc"><span>${descResult}</span><input type='button' value='Eliminar' class="deleteDesc" /></li>`;
+    showDesc.innerHTML = descTest;
+    itemDesc.value = "";
+    let deleteDesc = document.querySelectorAll(".deleteDesc");
 
-  /*DELETE DESC*/
-  deleteDesc.forEach((delBtn) => {
-    delBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      let parentDel = delBtn.parentNode;
-      parentDel.parentNode.removeChild(parentDel);
-      let htmlDesc = showDesc.innerHTML;
-      descTest = htmlDesc;
+    /*DELETE DESC*/
+    deleteDesc.forEach((delBtn) => {
+      delBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        let parentDel = delBtn.parentNode;
+        parentDel.parentNode.removeChild(parentDel);
+        let htmlDesc = showDesc.innerHTML;
+        descTest = htmlDesc;
+      });
     });
   });
-});
 
-/*THIRD CONFIRM UPLOAD*/
-submitForm3.addEventListener("click", () => {
-  formTres.style.opacity = 0;
-  /*ADD ITEMS TO DB*/
-  let title = itemTitle.value;
-  let city = itemLocate.value;
-  let dir = itemDir.value;
-  let type = itemType.value;
-  let price = itemPrice.value;
-  let exp = itemExp.value;
-  let mets = itemMets.value;
-  let usedMets = itemUsedmets.value;
-  let rooms = itemRooms.value;
-  let baths = itemBaths.value;
-  let garage = itemCar.value;
-  let age = itemAge.value;
-  let desc = descTest;
-  let lat = itemLat.value;
-  let long = itemLong.value;
-  let prop = itemProp.value;
-  db.collection("global")
-    .add({
-      title: title,
-      price: price,
-      exp: exp,
-      mets: mets,
-      usedMets: usedMets,
-      rooms: rooms,
-      garage: garage,
-      old: age,
-      baths: baths,
-      city: city,
-      type: type,
-      prop: prop,
-      lat: lat,
-      long: long,
-      desc: desc,
-      services: {
-        Internet: false,
-        Electricidad: true,
-        Gas: true,
-        Pavimento: true,
-        Agua: true,
-      },
-      dir: dir,
-    })
-    .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-      let data = docRef;
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Item cargado",
-        showConfirmButton: false,
-        timer: 1500,
+  /*THIRD CONFIRM UPLOAD*/
+  submitForm3.addEventListener("click", () => {
+    formTres.style.opacity = 0;
+    /*ADD ITEMS TO DB*/
+    let title = itemTitle.value;
+    let city = itemLocate.value;
+    let dir = itemDir.value;
+    let type = itemType.value;
+    let price = itemPrice.value;
+    let exp = itemExp.value;
+    let mets = itemMets.value;
+    let usedMets = itemUsedmets.value;
+    let rooms = itemRooms.value;
+    let baths = itemBaths.value;
+    let garage = itemCar.value;
+    let age = itemAge.value;
+    let desc = descTest;
+    let lat = itemLat.value;
+    let long = itemLong.value;
+    let prop = itemProp.value;
+    let idFinal = id.id;
+    db.collection("global")
+      .add({
+        title: title,
+        price: price,
+        exp: exp,
+        mets: mets,
+        usedMets: usedMets,
+        rooms: rooms,
+        garage: garage,
+        old: age,
+        id: idFinal,
+        baths: baths,
+        city: city,
+        type: type,
+        prop: prop,
+        lat: lat,
+        long: long,
+        desc: desc,
+        services: {
+          Internet: false,
+          Electricidad: true,
+          Gas: true,
+          Pavimento: true,
+          Agua: true,
+        },
+        dir: dir,
+      })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        let data = docRef;
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Item cargado",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        idFinal++;
+        contador
+          .update({
+            id: idFinal,
+          })
+          .then(() => {
+            console.log("se actualizo el id: ", idFinal);
+          });
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
       });
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
 
-  itemTitle.value = "";
-  itemLocate.value = "";
-  itemType.value = "";
-  itemPrice.value = "";
-  itemExp.value = "";
-  itemMets.value = "";
-  itemUsedmets.value = "";
-  itemRooms.value = "";
-  itemCar.value = "";
-  itemAge.value = "";
-  itemDesc.value = "";
-  itemLat.value = "";
-  itemLong.value = "";
-  setTimeout(() => {
-    formTres.style.display = "none";
-    uploadModal.style.display = "none";
-    menu.style.display = "flex";
-    menu.style.opacity = 1;
-  }, 500);
+    itemTitle.value = "";
+    itemLocate.value = "";
+    itemType.value = "";
+    itemPrice.value = "";
+    itemExp.value = "";
+    itemMets.value = "";
+    itemUsedmets.value = "";
+    itemRooms.value = "";
+    itemCar.value = "";
+    itemAge.value = "";
+    itemDesc.value = "";
+    itemLat.value = "";
+    itemLong.value = "";
+    setTimeout(() => {
+      formTres.style.display = "none";
+      uploadModal.style.display = "none";
+      menu.style.display = "flex";
+      menu.style.opacity = 1;
+    }, 500);
+  });
 });
 
 /*IF ADMIN IS LOGGED ON*/
