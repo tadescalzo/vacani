@@ -64,10 +64,12 @@ let itemProp = document.querySelector("#itemProp");
 let addDesc = document.querySelector("#addDesc");
 let addPhoto = document.querySelector("#addPhoto");
 let showDesc = document.querySelector("#showDesc");
+let modalList = document.querySelector(".main--admin__list");
+let adminList = document.querySelector(".adminList");
+let closeList = document.querySelector(".closeList");
 let descTest = "";
 const global = db.collection("global");
 const contador = db.collection("info").doc("contador");
-let map = document.getElementById("map");
 
 /*FUNCION CARGAR SERVICIOS DENTRO DEL MODAL*/
 const loadInfo = (services, desc) => {
@@ -80,17 +82,6 @@ const loadInfo = (services, desc) => {
     }
   }
   modalInfoDesc.innerHTML = desc;
-  // Initialize and add the map
-  function initMap() {
-    // The location of Uluru
-    // The marker, positioned at Uluru
-    const marker = new google.maps.Marker({
-      position: uluru,
-      map: map,
-    });
-  }
-
-  window.initMap = initMap;
 };
 
 /*FUNCION ABRIR MODAL POR ITEM*/
@@ -250,7 +241,6 @@ const clickFunction = (param, container, mainTitle) => {
                     <hr class="modalInfoLine" />
                     <div class="modalInfoInd">
                       <img src="https://i.blogs.es/b4dd5c/maps/1366_2000.png" alt="" />
-                      <div id="map"></div>
                     </div>
                   </div>
                 </div>
@@ -693,6 +683,80 @@ global.get().then((querySnapshot) => {
     /*FUNCION CLICK*/
     clickFunction("id", container, mainTitle);
   });
+});
+
+/*ABRIR LISTA*/
+openList.addEventListener("click", () => {
+  menu.style.opacity = 0;
+  modalList.style.opacity = 1;
+  setTimeout(() => {
+    adminList.innerHTML = "";
+    menu.style.display = "none";
+    modalList.style.display = "flex";
+    global.get().then((querySnapshot) => {
+      querySnapshot.forEach((item) => {
+        let prop = item.data();
+        let uniqueId = item.id;
+        const {
+          id,
+          baths,
+          city,
+          desc,
+          dir,
+          exp,
+          garage,
+          lat,
+          long,
+          mets,
+          old,
+          price,
+          mode,
+          rooms,
+          services,
+          title,
+          type,
+          usedMets,
+        } = prop;
+        adminList.innerHTML += `<li class="listItem" data-id="${uniqueId}">
+        <h4 class="listId">ID: ${id}</h4>
+        <h3 class="listTitle">Propiedad: ${dir}</h3>
+        <h3 class="listType">${type}</h3>
+        <h3 class="listPrice">Precio: ${price}</h3>
+        <button class="editList">Editar</button>
+        <button class="deleteList">Eliminar</button>
+        </li>`;
+        /*BORRAR ITEM*/
+        let borrado = document.querySelectorAll(".deleteList");
+        for (boton of borrado) {
+          boton.addEventListener("click", (e) => {
+            let child = e.target;
+            let parent = child.parentElement;
+            let dataId = parent.getAttribute("data-id");
+            global
+              .doc(dataId)
+              .delete()
+              .then(() => {
+                console.log("Document successfully deleted!");
+                location.reload();
+              })
+              .catch((error) => {
+                console.error("Error removing document: ", error);
+              });
+          });
+        }
+      });
+    });
+  }, 500);
+});
+/*CERRAR LISTA*/
+closeList.addEventListener("click", () => {
+  modalList.style.opacity = 0;
+  menu.style.display = "flex";
+  setTimeout(() => {
+    adminList.innerHTML = "";
+    modalList.style.display = "none";
+    menu.style.opacity = 1;
+  }, 500);
 });
 /*LOGIN*/
 loginBtn.addEventListener("click", (e) => {
