@@ -25,6 +25,10 @@ body {
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
+  #map {
+    height: 400px;
+    width: 100%;
+  }
 }
 
 .navbar {
@@ -419,10 +423,6 @@ body {
           margin-top: 1rem;
           padding: 1rem;
 
-        }
-        #map {
-          height: 400px;
-          width: 100%;
         }
         .modalInfoInd,
         .modalInfoCheck {

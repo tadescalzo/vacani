@@ -616,6 +616,69 @@
           display: none;
         }
       }
+      &__list{
+        width: 100%;
+        height: 100vh;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        overflow: hidden;
+        .adminList{
+          margin-top: 10rem;
+          list-style: none;
+          width: 100%; 
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-evenly;
+    
+          .listItem{
+            width: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            margin: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--main-bg);
+            .listId{
+              width: 10%;
+              font-size: 0.97rem;
+            }
+            .listTitle{
+              width: 25%;
+              font-size: 0.97rem;
+              text-transform: capitalize;
+            }
+            .listType{
+              width: 15%;
+              font-size: 0.97rem;
+              text-transform: capitalize;
+            }
+            .listPrice{
+              width: 15%;
+              font-size: 0.97rem;
+              text-transform: capitalize;
+            }
+            button{
+              width: 10%;
+              transition: 0.3s;
+            }
+            button:hover{
+              background-color: var(--main-bg);
+              color: var(--main-card);
+            }
+          }
+        }
+        .closeList{
+          width: 20%;
+          transition: 0.3s;
+        }
+        .closeList:hover{
+          background-color: var(--main-bg);
+          color: var(--main-card);
+        }
+      }
     }
   }
   
