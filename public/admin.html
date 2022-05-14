@@ -33,8 +33,7 @@
         <a href="index.html" class="navHome"><li>Home</li></a>
         <a href="#" class="navBuy"><li>Comprar</li></a>
         <a href="#" class="navAlq"><li>Alquilar</li></a>
-        <a href="#" class="navSell"><li>Vender</li></a>
-        <a href="#" class="navFaq"><li>¿Quienes somos?</li></a>
+        <a href="faq.html" class="navFaq"><li>¿Quienes somos?</li></a>
         <a href="#" class="navCont"><li>Contacto</li></a>
       </ul>
       <div class="navbar--mobile">
@@ -122,6 +121,65 @@
           <input type="file" id="itemPhoto" />
           <input type="button" value="Agregar" id="addPhoto" />
           <input type="button" value="Cargar" id="submitForm3" />
+        </form>
+      </section>
+      <section class="main--admin__edit">
+        <form action="submit" id="formUnoEdit">
+          <h3>1/3</h3>
+          <label for="editTitle">Titulo</label>
+          <input type="text" id="editTitle" />
+          <label for="editLocate">Ciudad</label>
+          <input type="text" id="editLocate" />
+          <label for="editDir">Direccion</label>
+          <input type="text" id="editDir" />
+          <label for="editType">Modalidad</label>
+          <select name="type" id="editType">
+            <option value="alquiler">Alquiler</option>
+            <option value="venta">Venta</option>
+          </select>
+          <label for="editProp">Tipo de inmueble</label>
+          <select name="type" id="editProp">
+            <option value="Departamento">Departamento</option>
+            <option value="Casa">Casa</option>
+            <option value="Oficina">Oficina</option>
+            <option value="PH">PH</option>
+          </select>
+          <label for="editPrice">Valor</label>
+          <input type="text" id="editPrice" />
+          <label for="editExp">Expensas</label>
+          <input type="text" id="editExp" />
+          <label for="editMets">Metros² totales</label>
+          <input type="text" id="editMets" />
+          <label for="editUsedmets">Metros² cubiertos</label>
+          <input type="text" id="editUsedmets" />
+          <label for="editRooms">Ambientes</label>
+          <input type="text" id="editRooms" />
+          <label for="editBaths">Baños</label>
+          <input type="text" id="editBaths" />
+          <label for="editCar">Cochera</label>
+          <input type="text" id="editCar" />
+          <label for="editAge">Antiguedad</label>
+          <input type="text" id="editAge" />
+          <input type="button" value="Continuar" id="submitEdit1" />
+        </form>
+        <form action="" id="formDosEdit">
+          <h3>2/3</h3>
+          <label for="editDesc">Descripcion:</label>
+          <input type="text" id="editDesc" />
+          <input type="button" value="Agregar" id="addDescEdit" />
+          <ul id="showDescEdit"></ul>
+          <label for="editLat">Mapa Latitud</label>
+          <input type="text" id="editLat" />
+          <label for="editLong">Mapa Longitud</label>
+          <input type="text" id="editLong" />
+          <input type="button" value="Continuar" id="submitEdit2" />
+        </form>
+        <form action="submit" id="formTresEdit">
+          <h3>3/3</h3>
+          <label for="editPhoto">Seleccione la foto</label>
+          <input type="file" id="editPhoto" />
+          <input type="button" value="Agregar" id="addPhotoEdit" />
+          <input type="button" value="Cargar" id="submitEdit3" />
         </form>
       </section>
       <section class="main--admin__list">

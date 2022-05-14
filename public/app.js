@@ -38,6 +38,32 @@ let loginPass = document.querySelector("#password");
 let openUpload = document.querySelector(".openUpload");
 let openList = document.querySelector(".openList");
 let uploadModal = document.querySelector(".main--admin__upload");
+let submitEdit1 = document.querySelector("#submitEdit1");
+let submitEdit2 = document.querySelector("#submitEdit2");
+let submitEdit3 = document.querySelector("#submitEdit3");
+let formUnoEdit = document.querySelector("#formUnoEdit");
+let formDosEdit = document.querySelector("#formDosEdit");
+let formTresEdit = document.querySelector("#formTresEdit");
+let editTitle = document.querySelector("#editTitle");
+let editDir = document.querySelector("#editDir");
+let editLocate = document.querySelector("#editLocate");
+let editType = document.querySelector("#editType");
+let editPrice = document.querySelector("#editPrice");
+let editExp = document.querySelector("#editExp");
+let editMets = document.querySelector("#editMets");
+let editUsedmets = document.querySelector("#editUsedmets");
+let editRooms = document.querySelector("#editRooms");
+let editBaths = document.querySelector("#editBaths");
+let editCar = document.querySelector("#editCar");
+let editAge = document.querySelector("#editAge");
+let editDesc = document.querySelector("#editDesc");
+let editLat = document.querySelector("#editLat");
+let editLong = document.querySelector("#editLong");
+let editPhoto = document.querySelector("#editPhoto");
+let editProp = document.querySelector("#editProp");
+let addDescEdit = document.querySelector("#addDescEdit");
+let addPhotoEdit = document.querySelector("#addPhotoEdit");
+let showDescEdit = document.querySelector("#showDescEdit");
 let submitForm1 = document.querySelector("#submitForm1");
 let submitForm2 = document.querySelector("#submitForm2");
 let submitForm3 = document.querySelector("#submitForm3");
@@ -65,9 +91,11 @@ let addDesc = document.querySelector("#addDesc");
 let addPhoto = document.querySelector("#addPhoto");
 let showDesc = document.querySelector("#showDesc");
 let modalList = document.querySelector(".main--admin__list");
+let modalEdit = document.querySelector(".main--admin__edit");
 let adminList = document.querySelector(".adminList");
 let closeList = document.querySelector(".closeList");
 let descTest = "";
+let descTestEdit = "";
 const global = db.collection("global");
 const contador = db.collection("info").doc("contador");
 
@@ -85,7 +113,7 @@ const loadInfo = (services, desc) => {
 };
 
 /*FUNCION ABRIR MODAL POR ITEM*/
-const clickFunction = (param, container, mainTitle) => {
+const clickFunction = (container, mainTitle) => {
   /*UNA VEZ QUE SE CUMPLE CON LA PETICION DE DATOS CARGAMOS LA FUNCION DE MODAL ON CLICK*/
   let cards = document.querySelectorAll(".card");
   let modal = document.querySelector(".modal");
@@ -94,48 +122,48 @@ const clickFunction = (param, container, mainTitle) => {
       let child = e.target;
       let parent = child.parentElement;
       let dataId = parent.getAttribute("data-item");
-      var propsRef = db.collection("global");
-      let reference = propsRef.where(param, "==", dataId);
-      reference.get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          let queryResult = doc.data();
-          /*SI TOCAMOS LA CARD Y NO ES UNO NI OTRO SE ABRE EL MODAL*/
-          if (
-            child.className == "card--bottom" ||
-            child.className == "carousel-inner"
-          ) {
-            modal.style.display = "flex";
-            modal.style.opacity = 1;
-            modal.innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
-            container.style.opacity = 0;
-            mainTitle.style.opacity = 0;
-            header.style.opacity = 0;
-            document.documentElement.scrollTop = 0;
-            const {
-              id,
-              baths,
-              city,
-              desc,
-              dir,
-              exp,
-              garage,
-              lat,
-              long,
-              mets,
-              old,
-              price,
-              mode,
-              rooms,
-              services,
-              title,
-              type,
-              usedMets,
-            } = queryResult;
-            let wppTxt = title.split(" ").join("+");
-            wppTxt += `+${dir}`;
-            /*CARGAMOS LA PANTALLA DEL ITEM SELECCIONADO*/
-            setTimeout(() => {
-              modal.innerHTML = `<span class="modal--close">X</span>
+      console.log(parent);
+      let reference = db.collection("global").doc(dataId);
+      reference.get().then((doc) => {
+        let queryResult = doc.data();
+        console.log(queryResult);
+        /*SI TOCAMOS LA CARD Y NO ES UNO NI OTRO SE ABRE EL MODAL*/
+        if (
+          child.className == "card--bottom" ||
+          child.className == "carousel-inner"
+        ) {
+          modal.style.display = "flex";
+          modal.style.opacity = 1;
+          modal.innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
+          container.style.opacity = 0;
+          mainTitle.style.opacity = 0;
+          header.style.opacity = 0;
+          document.documentElement.scrollTop = 0;
+          const {
+            id,
+            baths,
+            city,
+            desc,
+            dir,
+            exp,
+            garage,
+            lat,
+            long,
+            mets,
+            old,
+            price,
+            mode,
+            rooms,
+            services,
+            title,
+            type,
+            usedMets,
+          } = queryResult;
+          let wppTxt = title.split(" ").join("+");
+          wppTxt += `+${dir}`;
+          /*CARGAMOS LA PANTALLA DEL ITEM SELECCIONADO*/
+          setTimeout(() => {
+            modal.innerHTML = `<span class="modal--close">X</span>
           
               <div class='modal--upper'>
               <div class='modal--upper__header'>
@@ -236,13 +264,6 @@ const clickFunction = (param, container, mainTitle) => {
                     <ul class="modalInfoCheck">
                     </ul>
                   </div>
-                  <div class="modalInfo">
-                    <span>UBICACION</span>
-                    <hr class="modalInfoLine" />
-                    <div class="modalInfoInd">
-                      <img src="https://i.blogs.es/b4dd5c/maps/1366_2000.png" alt="" />
-                    </div>
-                  </div>
                 </div>
                 <form action="submit">
                     <h3>Consulta por esta propiedad</h3>
@@ -266,30 +287,29 @@ const clickFunction = (param, container, mainTitle) => {
                     <img src="images/logoNav.svg" alt="" />
                   </form>
                   </div>`;
-            }, 500);
+          }, 500);
 
-            container.style.display = "none";
-            mainTitle.style.display = "none";
-            header.style.display = "none";
-            setTimeout(() => {
-              /*FUNCION CERRAR MODAL*/
-              let closeModal = document.querySelector(".modal--close");
-              closeModal.addEventListener("click", () => {
-                modal.style.opacity = 0;
-                container.style.display = "flex";
-                mainTitle.style.display = "flex";
-                header.style.display = "flex";
-                setTimeout(() => {
-                  modal.style.display = "none";
-                  container.style.opacity = 1;
-                  mainTitle.style.opacity = 1;
-                  header.style.opacity = 1;
-                }, 500);
-              });
-              loadInfo(services, desc);
-            }, 600);
-          }
-        });
+          container.style.display = "none";
+          mainTitle.style.display = "none";
+          header.style.display = "none";
+          setTimeout(() => {
+            /*FUNCION CERRAR MODAL*/
+            let closeModal = document.querySelector(".modal--close");
+            closeModal.addEventListener("click", () => {
+              modal.style.opacity = 0;
+              container.style.display = "flex";
+              mainTitle.style.display = "flex";
+              header.style.display = "flex";
+              setTimeout(() => {
+                modal.style.display = "none";
+                container.style.opacity = 1;
+                mainTitle.style.opacity = 1;
+                header.style.opacity = 1;
+              }, 500);
+            });
+            loadInfo(services, desc);
+          }, 600);
+        }
       });
     });
   }
@@ -452,7 +472,141 @@ navAlq.addEventListener("click", (e) => {
 /*FILTRO COMPRA*/
 navBuy.addEventListener("click", (e) => {
   global
-    .where("type", "==", "venta")
+    .where("type", "==", "Venta")
+    .get()
+    .then((querySnapshot) => {
+      e.preventDefault();
+      menuMobile.style.opacity = 0;
+      closeMobile.style.opacity = 0;
+
+      setTimeout(() => {
+        menuMobile.style.display = "none";
+        closeMobile.style.display = "none";
+      }, 300);
+      scroll({
+        top: 320,
+        behavior: "smooth",
+      });
+      setTimeout(() => {
+        main.innerHTML = `<div class="modal"></div><h2 class="main--title">Comprar</h2><div class="main--container"></div>`;
+        querySnapshot.forEach((doc) => {
+          /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
+          let result = doc.data();
+          let container = document.querySelector(".main--container");
+          let mainTitle = document.querySelector(".main--title");
+          const {
+            id,
+            baths,
+            city,
+            desc,
+            dir,
+            exp,
+            garage,
+            lat,
+            long,
+            mets,
+            old,
+            price,
+            mode,
+            rooms,
+            services,
+            title,
+            type,
+            usedMets,
+          } = result;
+          let wppTxt = title.split(" ").join("+");
+          wppTxt += `+${dir}`;
+          container.innerHTML += `<article class="card" data-item=${id}>
+          <div class="card--top">
+            <div id="carousel${id}" data-item=${id} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img
+                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div class="card--bottom">
+            <p class="card--bottom__type">
+            ${type}
+            </p>
+            <p class="card--bottom__desc">
+              ${title}
+            </p>
+            <span class="card--bottom__price">${price}</span>
+            ${
+              exp != 0
+                ? `<span class="card--bottom__exp">+${exp}</span>`
+                : `<span class="card--bottom__exp">Sin Expensas</span>`
+            }
+            <div class="card--bottom__line"></div>
+            <div class="card--bottom__info">
+              <p><strong>${mets}</strong> m² totales</p>
+              <p><strong>${baths}</strong> baños</p>
+              <p><strong>${usedMets}</strong> m² cubiertos</p>
+              <p><strong>${rooms}</strong> ambientes</p>
+            </div>
+          </div>
+        </article>`;
+          clickFunction("id", container, mainTitle);
+        }, 500);
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+      console.log("hay 0 objetos");
+      let container = document.querySelector(".main--container");
+      container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
+    });
+});
+
+/*FILTRO COMPRA*/
+mainBtn.addEventListener("click", (e) => {
+  let type = typeFilter.value;
+  global
+    .where("type", "==", type)
     .get()
     .then((querySnapshot) => {
       e.preventDefault();
@@ -586,6 +740,7 @@ navBuy.addEventListener("click", (e) => {
 global.get().then((querySnapshot) => {
   querySnapshot.forEach((item) => {
     let prop = item.data();
+    let uniqueId = item.id;
     const {
       id,
       baths,
@@ -606,9 +761,9 @@ global.get().then((querySnapshot) => {
       type,
       usedMets,
     } = prop;
-    container.innerHTML += `<article class="card" data-item=${id}>
+    container.innerHTML += `<article class="card" data-item=${uniqueId}>
           <div class="card--top">
-            <div id="carousel${id}" data-item=${id} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
+            <div id="carousel${id}" data-item=${uniqueId} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
               <div class="carousel-inner">
                 <div class="carousel-item active">
                   <img
@@ -681,7 +836,7 @@ global.get().then((querySnapshot) => {
           </div>
         </article>`;
     /*FUNCION CLICK*/
-    clickFunction("id", container, mainTitle);
+    clickFunction(container, mainTitle);
   });
 });
 
@@ -744,6 +899,193 @@ openList.addEventListener("click", () => {
               });
           });
         }
+        /*EDITAR ITEM*/
+        let editados = document.querySelectorAll(".editList");
+        for (edit of editados) {
+          edit.addEventListener("click", (e) => {
+            let child = e.target;
+            let parent = child.parentElement;
+            let dataId = parent.getAttribute("data-id");
+            var propsRef = db.collection("global").doc(dataId);
+            propsRef.get().then((doc) => {
+              let prop = doc.data();
+              const {
+                id,
+                baths,
+                city,
+                desc,
+                dir,
+                exp,
+                garage,
+                lat,
+                long,
+                mets,
+                old,
+                price,
+                propCat,
+                rooms,
+                services,
+                title,
+                type,
+                usedMets,
+              } = prop;
+              modalList.style.opacity = 0;
+              modalEdit.style.display = "flex";
+              formUno.style.display = "flex";
+              setTimeout(() => {
+                editTitle.value = title;
+                editLocate.value = city;
+                editDir.value = dir;
+                editType.value = type;
+                editPrice.value = price;
+                editExp.value = exp;
+                editMets.value = mets;
+                editUsedmets.value = usedMets;
+                editRooms.value = rooms;
+                editBaths.value = baths;
+                editCar.value = garage;
+                editAge.value = old;
+                showDescEdit.innerHTML = desc;
+                descTestEdit = desc;
+                editLat.value = lat;
+                editLong.value = long;
+                editProp.value = propCat;
+                modalList.style.display = "none";
+                modalEdit.style.opacity = 1;
+                formUnoEdit.style.opacity = 1;
+              }, 500);
+              /*FIRST CONFIRM EDIT*/
+              submitEdit1.addEventListener("click", () => {
+                formUnoEdit.style.opacity = 0;
+                formDosEdit.style.display = "flex";
+                setTimeout(() => {
+                  formUnoEdit.style.display = "none";
+                  formDosEdit.style.opacity = 1;
+                  let deleteDesc = document.querySelectorAll(".deleteDesc");
+                  /*DELETE DESC*/
+                  deleteDesc.forEach((delBtn) => {
+                    delBtn.addEventListener("click", (e) => {
+                      e.preventDefault();
+                      let parentDel = delBtn.parentNode;
+                      console.log(parentDel);
+                      parentDel.parentNode.removeChild(parentDel);
+                      let htmlDescEdit = showDescEdit.innerHTML;
+                      descTestEdit = htmlDescEdit;
+                    });
+                  });
+                  /*ADD DESC*/
+                  addDescEdit.addEventListener("click", () => {
+                    let descResult = editDesc.value;
+                    showDescEdit.innerHTML = "";
+                    descTestEdit += `<li class="itemDesc"><span>${descResult}</span><input type='button' value='Eliminar' class="deleteDesc" /></li>`;
+                    showDescEdit.innerHTML = descTestEdit;
+                    editDesc.value = "";
+                    deleteDesc = document.querySelectorAll(".deleteDesc");
+                    deleteDesc.forEach((delBtn) => {
+                      delBtn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        let parentDel = delBtn.parentNode;
+                        console.log(parentDel);
+                        parentDel.parentNode.removeChild(parentDel);
+                        let htmlDescEdit = showDescEdit.innerHTML;
+                        descTestEdit = htmlDescEdit;
+                      });
+                    });
+                  });
+                }, 500);
+              });
+              /*SECOND CONFIRM EDIT*/
+              submitEdit2.addEventListener("click", () => {
+                formDosEdit.style.opacity = 0;
+                formTresEdit.style.display = "flex";
+                setTimeout(() => {
+                  formDosEdit.style.display = "none";
+                  formTresEdit.style.opacity = 1;
+                }, 500);
+              });
+              /*THIRD CONFIRM UPLOAD*/
+              submitEdit3.addEventListener("click", () => {
+                formTresEdit.style.opacity = 0;
+                console.log("click");
+                /*ADD ITEMS TO DB*/
+                let title = editTitle.value;
+                let city = editLocate.value;
+                let dir = editDir.value;
+                let type = editType.value;
+                let price = editPrice.value;
+                let exp = editExp.value;
+                let mets = editMets.value;
+                let usedMets = editUsedmets.value;
+                let rooms = editRooms.value;
+                let baths = editBaths.value;
+                let garage = editCar.value;
+                let age = editAge.value;
+                let desc = descTestEdit;
+                let lat = editLat.value;
+                let long = editLong.value;
+                let propCat = editProp.value;
+                propsRef
+                  .update({
+                    title: title,
+                    price: price,
+                    exp: exp,
+                    mets: mets,
+                    usedMets: usedMets,
+                    rooms: rooms,
+                    garage: garage,
+                    old: age,
+                    baths: baths,
+                    city: city,
+                    type: type,
+                    propCat: propCat,
+                    lat: lat,
+                    long: long,
+                    desc: desc,
+                    services: {
+                      Internet: false,
+                      Electricidad: true,
+                      Gas: true,
+                      Pavimento: true,
+                      Agua: true,
+                    },
+                    dir: dir,
+                  })
+                  .then((docRef) => {
+                    Swal.fire({
+                      position: "top-end",
+                      icon: "success",
+                      title: "Item actualizado",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  })
+                  .catch((error) => {
+                    console.error("Error adding document: ", error);
+                  });
+
+                editTitle.value = "";
+                editLocate.value = "";
+                editType.value = "";
+                editPrice.value = "";
+                editExp.value = "";
+                editMets.value = "";
+                editUsedmets.value = "";
+                editRooms.value = "";
+                editCar.value = "";
+                editAge.value = "";
+                editDesc.value = "";
+                editLat.value = "";
+                editLong.value = "";
+                setTimeout(() => {
+                  formTres.style.display = "none";
+                  modalEdit.style.display = "none";
+                  menu.style.display = "flex";
+                  menu.style.opacity = 1;
+                }, 500);
+              });
+            });
+          });
+        }
       });
     });
   }, 500);
@@ -794,17 +1136,31 @@ contador.get().then((doc) => {
   /*FIRST CONFIRM UPLOAD*/
   submitForm1.addEventListener("click", () => {
     formUno.style.opacity = 0;
+    formDos.style.display = "flex";
     setTimeout(() => {
       formUno.style.display = "none";
-      formDos.style.display = "flex";
+      formDos.style.opacity = 1;
+      let deleteDesc = document.querySelectorAll(".deleteDesc");
+      /*DELETE DESC*/
+      deleteDesc.forEach((delBtn) => {
+        delBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          let parentDel = delBtn.parentNode;
+          console.log(parentDel);
+          parentDel.parentNode.removeChild(parentDel);
+          let htmlDesc = showDesc.innerHTML;
+          descTest = htmlDesc;
+        });
+      });
     }, 500);
   });
   /*SECOND CONFIRM UPLOAD*/
   submitForm2.addEventListener("click", () => {
     formDos.style.opacity = 0;
+    formTres.style.display = "flex";
     setTimeout(() => {
       formDos.style.display = "none";
-      formTres.style.display = "flex";
+      formTres.style.opacity = 1;
     }, 500);
   });
   /*ADD DESC*/
@@ -814,13 +1170,14 @@ contador.get().then((doc) => {
     descTest += `<li class="itemDesc"><span>${descResult}</span><input type='button' value='Eliminar' class="deleteDesc" /></li>`;
     showDesc.innerHTML = descTest;
     itemDesc.value = "";
-    let deleteDesc = document.querySelectorAll(".deleteDesc");
+    deleteDesc = document.querySelectorAll(".deleteDesc");
 
     /*DELETE DESC*/
     deleteDesc.forEach((delBtn) => {
       delBtn.addEventListener("click", (e) => {
         e.preventDefault();
         let parentDel = delBtn.parentNode;
+        console.log(parentDel);
         parentDel.parentNode.removeChild(parentDel);
         let htmlDesc = showDesc.innerHTML;
         descTest = htmlDesc;
@@ -847,7 +1204,7 @@ contador.get().then((doc) => {
     let desc = descTest;
     let lat = itemLat.value;
     let long = itemLong.value;
-    let prop = itemProp.value;
+    let propCat = itemProp.value;
     let idFinal = id.id;
     db.collection("global")
       .add({
@@ -863,7 +1220,7 @@ contador.get().then((doc) => {
         baths: baths,
         city: city,
         type: type,
-        prop: prop,
+        propCat: propCat,
         lat: lat,
         long: long,
         desc: desc,
