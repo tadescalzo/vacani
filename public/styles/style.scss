@@ -398,7 +398,7 @@ body {
     &--lower{
       display: flex;
       height: fit-content;
-      justify-content: center;
+      justify-content: space-evenly;
       &__info {
         min-width: 40%;
         max-width: 40%;
@@ -466,9 +466,7 @@ body {
         }
         .modalInfoDesc {
           width: 90%;
-          list-style: none;
           text-align: left;
-          text-transform: capitalize;
           .deleteDesc{
             display: none;
           }
@@ -625,6 +623,69 @@ body {
       #formDos,#formTres{
         display: none;
       }
+    }
+  }
+  .mainFaq{
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    .mainFaqText{
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+      span{
+        width: 45%;
+        margin-top: 1rem;
+      }
+      h3{
+        margin-top: 3rem;
+        color: var(--main-red);
+      }
+      i{
+        color: var(--main-red);
+      }
+    }
+    .mainFaqImg{
+      width:45%;
+      height: 70vh;
+      background-color: black;
+    }
+    
+  }
+  @media screen and (max-width: 1200px) {
+    .mainFaq{
+      width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      .mainFaqText{
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+        margin-top: 5rem;
+        span{
+          width: 70%;
+          margin-top: 1rem;
+        }
+        h3{
+          margin-top: 3rem;
+          color: var(--main-red);
+        }
+        i{
+          color: var(--main-red);
+        }
+      }
+      .mainFaqImg{
+        width:45%;
+        height: 70vh;
+        background-color: black;
+      }
+      
     }
   }
 }

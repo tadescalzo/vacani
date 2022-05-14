@@ -929,13 +929,17 @@ body {
   transition: 0.5s;
 }
 
+.main--admin__upload #formUno #addDesc, .main--admin__upload #formDos #addDesc, .main--admin__upload #formTres #addDesc {
+  border: solid 1px var(--main-bg);
+}
+
 .main--admin__upload #formUno input, .main--admin__upload #formDos input, .main--admin__upload #formTres input {
   width: 40%;
   border: none;
   background-color: transparent;
   border-bottom: 1px solid var(--main-bg);
   outline: none;
-  margin-top: -1.5rem;
+  margin-top: -1rem;
 }
 
 .main--admin__upload #formUno #submitForm1, .main--admin__upload #formUno #submitForm2, .main--admin__upload #formUno #submitForm3, .main--admin__upload #formDos #submitForm1, .main--admin__upload #formDos #submitForm2, .main--admin__upload #formDos #submitForm3, .main--admin__upload #formTres #submitForm1, .main--admin__upload #formTres #submitForm2, .main--admin__upload #formTres #submitForm3 {
@@ -952,7 +956,144 @@ body {
   color: var(--main-card);
 }
 
+.main--admin__upload #formUno #showDesc, .main--admin__upload #formDos #showDesc, .main--admin__upload #formTres #showDesc {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 80%;
+}
+
+.main--admin__upload #formUno #showDesc .itemDesc, .main--admin__upload #formDos #showDesc .itemDesc, .main--admin__upload #formTres #showDesc .itemDesc {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 80%;
+  margin-top: 1rem;
+}
+
+.main--admin__upload #formUno #showDesc .itemDesc .deleteDesc, .main--admin__upload #formDos #showDesc .itemDesc .deleteDesc, .main--admin__upload #formTres #showDesc .itemDesc .deleteDesc {
+  margin-top: 0.4rem;
+  border: solid 1px var(--main-bg);
+}
+
 .main--admin__upload #formDos, .main--admin__upload #formTres {
+  display: none;
+}
+
+.main--admin__edit {
+  width: 100%;
+  height: 110vh;
+  margin-top: 5rem;
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.main--admin__edit #formUnoEdit, .main--admin__edit #formDosEdit, .main--admin__edit #formTresEdit {
+  width: 50%;
+  height: 90%;
+  border: 1px solid var(--main-bg);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-weight: 700;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.main--admin__edit #formUnoEdit input, .main--admin__edit #formDosEdit input, .main--admin__edit #formTresEdit input {
+  width: 40%;
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid var(--main-bg);
+  outline: none;
+  margin-top: -1rem;
+}
+
+.main--admin__edit #formUnoEdit #submitEdit1, .main--admin__edit #formUnoEdit #submitEdit2, .main--admin__edit #formUnoEdit #submitEdit3, .main--admin__edit #formDosEdit #submitEdit1, .main--admin__edit #formDosEdit #submitEdit2, .main--admin__edit #formDosEdit #submitEdit3, .main--admin__edit #formTresEdit #submitEdit1, .main--admin__edit #formTresEdit #submitEdit2, .main--admin__edit #formTresEdit #submitEdit3 {
+  border: 1px solid var(--main-bg);
+  font-weight: 700;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  margin-top: 0rem;
+  padding: 0.5rem 0rem;
+}
+
+.main--admin__edit #formUnoEdit #submitEdit1:hover, .main--admin__edit #formUnoEdit #submitEdit2:hover, .main--admin__edit #formUnoEdit #submitEdit3:hover, .main--admin__edit #formDosEdit #submitEdit1:hover, .main--admin__edit #formDosEdit #submitEdit2:hover, .main--admin__edit #formDosEdit #submitEdit3:hover, .main--admin__edit #formTresEdit #submitEdit1:hover, .main--admin__edit #formTresEdit #submitEdit2:hover, .main--admin__edit #formTresEdit #submitEdit3:hover {
+  background-color: var(--main-bg);
+  color: var(--main-card);
+}
+
+.main--admin__edit #formUnoEdit #showDescEdit, .main--admin__edit #formDosEdit #showDescEdit, .main--admin__edit #formTresEdit #showDescEdit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 80%;
+  list-style: none;
+}
+
+.main--admin__edit #formUnoEdit #showDescEdit .itemDesc, .main--admin__edit #formDosEdit #showDescEdit .itemDesc, .main--admin__edit #formTresEdit #showDescEdit .itemDesc {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 80%;
+  margin-top: 1rem;
+}
+
+.main--admin__edit #formUnoEdit #showDescEdit .itemDesc .deleteDesc, .main--admin__edit #formDosEdit #showDescEdit .itemDesc .deleteDesc, .main--admin__edit #formTresEdit #showDescEdit .itemDesc .deleteDesc {
+  margin-top: 0.4rem;
+  border: solid 1px var(--main-bg);
+}
+
+.main--admin__edit #formDosEdit, .main--admin__edit #formTresEdit {
   display: none;
 }
 
@@ -1051,6 +1192,12 @@ body {
 .main--admin__list .closeList:hover {
   background-color: var(--main-bg);
   color: var(--main-card);
+}
+
+@media screen and (max-width: 1200px) {
+  .main--admin__login form input {
+    width: 70%;
+  }
 }
 
 .card {
@@ -1237,7 +1384,7 @@ body {
   border-bottom: 1px solid black;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1200px) {
   .footer {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;

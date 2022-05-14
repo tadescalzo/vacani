@@ -604,9 +604,9 @@ body #map {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
 }
 
 .main .modal--lower__info {
@@ -728,9 +728,7 @@ body #map {
 
 .main .modal--lower__info .modalInfoDesc {
   width: 90%;
-  list-style: none;
   text-align: left;
-  text-transform: capitalize;
 }
 
 .main .modal--lower__info .modalInfoDesc .deleteDesc {
@@ -966,6 +964,96 @@ body #map {
 
 .main--admin__upload #formDos, .main--admin__upload #formTres {
   display: none;
+}
+
+.main .mainFaq {
+  width: 100vw;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  overflow: hidden;
+}
+
+.main .mainFaq .mainFaqText {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 45%;
+}
+
+.main .mainFaq .mainFaqText span {
+  width: 45%;
+  margin-top: 1rem;
+}
+
+.main .mainFaq .mainFaqText h3 {
+  margin-top: 3rem;
+  color: var(--main-red);
+}
+
+.main .mainFaq .mainFaqText i {
+  color: var(--main-red);
+}
+
+.main .mainFaq .mainFaqImg {
+  width: 45%;
+  height: 70vh;
+  background-color: black;
+}
+
+@media screen and (max-width: 1200px) {
+  .main .mainFaq {
+    width: 100vw;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    overflow: hidden;
+  }
+  .main .mainFaq .mainFaqText {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 45%;
+    margin-top: 5rem;
+  }
+  .main .mainFaq .mainFaqText span {
+    width: 70%;
+    margin-top: 1rem;
+  }
+  .main .mainFaq .mainFaqText h3 {
+    margin-top: 3rem;
+    color: var(--main-red);
+  }
+  .main .mainFaq .mainFaqText i {
+    color: var(--main-red);
+  }
+  .main .mainFaq .mainFaqImg {
+    width: 45%;
+    height: 70vh;
+    background-color: black;
+  }
 }
 
 .card {
