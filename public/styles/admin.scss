@@ -554,6 +554,11 @@
             color: var(--main-card);
           }
         }
+        @media screen and (max-width: 1200px) {
+          form{
+            width: 70%;
+          }
+        }
       }
       &__menu{
         width: 100vw;
@@ -582,7 +587,16 @@
         align-items: center;
         justify-content: center;
         transition: 0.5s;
-        #formUno,#formDos,#formTres{
+        position: relative;
+        overflow: hidden;
+        #closeUpload{
+          position: absolute;
+          font-weight: 700;
+          right: 30%;
+          top: 10%;
+          cursor: pointer;
+        }
+        #formUno,#formDos,#formTres,#formCuatro{
           width: 50%;
           height: 90%;
           border: 1px solid var(--main-bg);
@@ -591,7 +605,16 @@
           justify-content: space-evenly;
           flex-direction: column;
           font-weight: 700;
-          transition: 0.5s;
+          transition: 0.6s;
+          .checkboxes{
+            width: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            input{
+              margin: 0;
+            }
+          }
           #addDesc{
             border: solid 1px var(--main-bg);
           }
@@ -603,14 +626,14 @@
             outline: none;
             margin-top: -1rem;
           }
-          #submitForm1,#submitForm2,#submitForm3{
+          #submitForm1,#submitForm2,#submitForm3,#submitForm4{
             border: 1px solid var(--main-bg);
             font-weight: 700;
             transition: 0.5s;
             margin-top: 0rem;
             padding: 0.5rem 0rem;
           }
-          #submitForm1:hover,#submitForm2:hover,#submitForm3:hover{
+          #submitForm1:hover,#submitForm2:hover,#submitForm3:hover,#submitForm3:hover{
             background-color: var(--main-bg);
             color: var(--main-card);
           }
@@ -625,6 +648,10 @@
               align-items: center;
               width: 80%;
               margin-top: 1rem;
+              span{
+              display: flex;
+              flex-wrap: nowrap;
+              }
               .deleteDesc{
                 margin-top: 0.4rem;
                 border: solid 1px var(--main-bg);
@@ -632,8 +659,18 @@
             }
           }
         }
-        #formDos,#formTres{
+        #formDos,#formTres,#formCuatro{
           display: none;
+          opacity: 0;
+        }
+        @media screen and (max-width: 1200px) {
+          #formUno,#formDos,#formTres,#formCuatro{
+            width: 70%;
+            overflow: hidden;
+            input{
+              width: 70%;
+            }
+          }
         }
       }
       &__edit{
@@ -645,7 +682,15 @@
         align-items: center;
         justify-content: center;
         transition: 0.5s;
-        #formUnoEdit,#formDosEdit,#formTresEdit{
+        position: relative;
+        #closeEdit{
+          position: absolute;
+          font-weight: 700;
+          right: 30%;
+          top: 10%;
+          cursor: pointer;
+        }
+        #formUnoEdit,#formDosEdit,#formTresEdit,#formCuatroEdit{
           width: 50%;
           height: 90%;
           border: 1px solid var(--main-bg);
@@ -654,7 +699,7 @@
           justify-content: space-evenly;
           flex-direction: column;
           font-weight: 700;
-          transition: 0.5s;
+          transition: 0.6s;
           input{
             width: 40%;
             border: none;
@@ -663,14 +708,23 @@
             outline: none;
             margin-top: -1rem;
           }
-          #submitEdit1,#submitEdit2,#submitEdit3{
+          .checkboxes{
+            width: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            input{
+              margin: 0;
+            }
+          }
+          #submitEdit1,#submitEdit2,#submitEdit3,#submitEdit4{
             border: 1px solid var(--main-bg);
             font-weight: 700;
             transition: 0.5s;
             margin-top: 0rem;
             padding: 0.5rem 0rem;
           }
-          #submitEdit1:hover,#submitEdit2:hover,#submitEdit3:hover{
+          #submitEdit1:hover,#submitEdit2:hover,#submitEdit3:hover,#submitEdit4:hover{
             background-color: var(--main-bg);
             color: var(--main-card);
           }
@@ -693,8 +747,9 @@
             }
           }
         }
-        #formDosEdit,#formTresEdit{
+        #formDosEdit,#formTresEdit,#formCuatroEdit{
           display: none;
+          opacity: 0;
         }
       }
       &__list{
@@ -760,16 +815,7 @@
           color: var(--main-card);
         }
       }
-      @media screen and (max-width: 1200px) {
-        &__login{
-          form{
-            input{
-              width: 70%;
-            }
-          }
-          
-        }
-      }
+
     }
   }
   

@@ -500,14 +500,16 @@ body {
           padding: 0.5rem;
           transition: 0.5s;
           font-weight: 700;
+          width: 50%;
+          color: var(--main-card);
         }
         #wppBtn {
           background-color: #25d366;
           border: 1px solid var(--main-bg);
           padding: 0.5rem;
-          width: 80%;
+          width: 50%;
           text-align: center;
-          color: var(--text-main);
+          color: var(--main-card);
           text-decoration: none;
           transition: 0.5s;
           font-weight: 700;
@@ -519,109 +521,26 @@ body {
         }
       }
     }
-    
-  }
-  &--admin{
-    min-height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    &__login{
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      img{
-        width: 250px;
+    @media screen and (max-width: 1200px) {
+      &--upper{
+        justify-content: space-between;
+        &__header{
+          .upperRight{
+            width: 30%;
+          }
+        }
       }
-      form{
-        width: 35%;
-        height: 40vh;
-        display: flex;
+      &--lower{
         flex-direction: column;
         align-items: center;
-        justify-content: space-evenly;
-        margin-top: 2rem;
-        font-weight: 700;
-        input {
-          border: none;
-          border-bottom: 1px solid var(--main-bg);
-          width: 50%;
-          outline: none;
-          caret-color: var(--secondary-red);
+        justify-content: center;
+        &__info{
+          min-width: 100%;
         }
-        #login{
-          background-color: var(--secondary-card);
-          border: 1px solid var(--text-main);
-          transition: 0.4s;
-          padding: 0.5rem;
+        form{
+          width: 70%;
+          height: 80vh;
         }
-        #login:hover{
-          background-color: var(--main-bg);
-          color: var(--main-card);
-        }
-      }
-    }
-    &__menu{
-      width: 100vw;
-      height: 100vh;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: 0.5s;
-      .openUpload, .openList{
-        margin-top: 2rem;
-        padding: 1rem 3rem;
-        transition: 0.5s;
-      }
-      .openList:hover, .openUpload:hover{
-        background-color: var(--main-bg);
-        color: var(--main-card);
-      }
-    }
-    &__upload{
-      width: 100%;
-      height: 110vh;
-      margin-top: 5rem;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: 0.5s;
-      #formUno,#formDos,#formTres{
-        width: 50%;
-        height: 90%;
-        border: 1px solid var(--main-bg);
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        flex-direction: column;
-        font-weight: 700;
-        transition: 0.5s;
-        input{
-          width: 40%;
-          border: none;
-          background-color: transparent;
-          border-bottom: 1px solid var(--main-bg);
-          outline: none;
-          margin-top: -1.5rem;
-        }
-        #submitForm1,#submitForm2,#submitForm3{
-          border: 1px solid var(--main-bg);
-          font-weight: 700;
-          transition: 0.5s;
-          margin-top: 0rem;
-          padding: 0.5rem 0rem;
-        }
-        #submitForm1:hover,#submitForm2:hover,#submitForm3:hover{
-          background-color: var(--main-bg);
-          color: var(--main-card);
-        }
-      }
-      #formDos,#formTres{
-        display: none;
       }
     }
   }
@@ -810,6 +729,7 @@ body {
     display: flex;
     width: fit-content;
     height: fit-content;
+    flex-direction: column;
     margin: 0;
     z-index: 2;
     &__link {
@@ -819,12 +739,20 @@ body {
       cursor: pointer;
       transition: 0.5s;
       height: 27px;
+      width: fit-content;
+      a{
+        text-decoration: none;
+        color: var(--main-card);
+        &:hover{
+          color: var(--main-card);
+        }
+      }
       &:hover {
         border-bottom: 1px solid black;
       }
     }
   }
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1200px) {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;

@@ -778,15 +778,17 @@ body #map {
   -webkit-transition: 0.5s;
   transition: 0.5s;
   font-weight: 700;
+  width: 50%;
+  color: var(--main-card);
 }
 
 .main .modal--lower form #wppBtn {
   background-color: #25d366;
   border: 1px solid var(--main-bg);
   padding: 0.5rem;
-  width: 80%;
+  width: 50%;
   text-align: center;
-  color: var(--text-main);
+  color: var(--main-card);
   text-decoration: none;
   -webkit-transition: 0.5s;
   transition: 0.5s;
@@ -799,171 +801,34 @@ body #map {
   color: var(--main-card);
 }
 
-.main--admin {
-  min-height: 100vh;
-  width: 100%;
-  overflow: hidden;
-}
-
-.main--admin__login {
-  width: 100vw;
-  height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.main--admin__login img {
-  width: 250px;
-}
-
-.main--admin__login form {
-  width: 35%;
-  height: 40vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
-  margin-top: 2rem;
-  font-weight: 700;
-}
-
-.main--admin__login form input {
-  border: none;
-  border-bottom: 1px solid var(--main-bg);
-  width: 50%;
-  outline: none;
-  caret-color: var(--secondary-red);
-}
-
-.main--admin__login form #login {
-  background-color: var(--secondary-card);
-  border: 1px solid var(--text-main);
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  padding: 0.5rem;
-}
-
-.main--admin__login form #login:hover {
-  background-color: var(--main-bg);
-  color: var(--main-card);
-}
-
-.main--admin__menu {
-  width: 100vw;
-  height: 100vh;
-  display: none;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.main--admin__menu .openUpload, .main--admin__menu .openList {
-  margin-top: 2rem;
-  padding: 1rem 3rem;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.main--admin__menu .openList:hover, .main--admin__menu .openUpload:hover {
-  background-color: var(--main-bg);
-  color: var(--main-card);
-}
-
-.main--admin__upload {
-  width: 100%;
-  height: 110vh;
-  margin-top: 5rem;
-  display: none;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.main--admin__upload #formUno, .main--admin__upload #formDos, .main--admin__upload #formTres {
-  width: 50%;
-  height: 90%;
-  border: 1px solid var(--main-bg);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  font-weight: 700;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.main--admin__upload #formUno input, .main--admin__upload #formDos input, .main--admin__upload #formTres input {
-  width: 40%;
-  border: none;
-  background-color: transparent;
-  border-bottom: 1px solid var(--main-bg);
-  outline: none;
-  margin-top: -1.5rem;
-}
-
-.main--admin__upload #formUno #submitForm1, .main--admin__upload #formUno #submitForm2, .main--admin__upload #formUno #submitForm3, .main--admin__upload #formDos #submitForm1, .main--admin__upload #formDos #submitForm2, .main--admin__upload #formDos #submitForm3, .main--admin__upload #formTres #submitForm1, .main--admin__upload #formTres #submitForm2, .main--admin__upload #formTres #submitForm3 {
-  border: 1px solid var(--main-bg);
-  font-weight: 700;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  margin-top: 0rem;
-  padding: 0.5rem 0rem;
-}
-
-.main--admin__upload #formUno #submitForm1:hover, .main--admin__upload #formUno #submitForm2:hover, .main--admin__upload #formUno #submitForm3:hover, .main--admin__upload #formDos #submitForm1:hover, .main--admin__upload #formDos #submitForm2:hover, .main--admin__upload #formDos #submitForm3:hover, .main--admin__upload #formTres #submitForm1:hover, .main--admin__upload #formTres #submitForm2:hover, .main--admin__upload #formTres #submitForm3:hover {
-  background-color: var(--main-bg);
-  color: var(--main-card);
-}
-
-.main--admin__upload #formDos, .main--admin__upload #formTres {
-  display: none;
+@media screen and (max-width: 1200px) {
+  .main .modal--upper {
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .main .modal--upper__header .upperRight {
+    width: 30%;
+  }
+  .main .modal--lower {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .main .modal--lower__info {
+    min-width: 100%;
+  }
+  .main .modal--lower form {
+    width: 70%;
+    height: 80vh;
+  }
 }
 
 .main .mainFaq {
@@ -1222,6 +1087,10 @@ body #map {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   margin: 0;
   z-index: 2;
 }
@@ -1234,13 +1103,25 @@ body #map {
   -webkit-transition: 0.5s;
   transition: 0.5s;
   height: 27px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.footer--media__link a, .footer--info__link a {
+  text-decoration: none;
+  color: var(--main-card);
+}
+
+.footer--media__link a:hover, .footer--info__link a:hover {
+  color: var(--main-card);
 }
 
 .footer--media__link:hover, .footer--info__link:hover {
   border-bottom: 1px solid black;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1200px) {
   .footer {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;

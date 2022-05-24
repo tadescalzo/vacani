@@ -858,6 +858,12 @@ body {
   color: var(--main-card);
 }
 
+@media screen and (max-width: 1200px) {
+  .main--admin__login form {
+    width: 70%;
+  }
+}
+
 .main--admin__menu {
   width: 100vw;
   height: 100vh;
@@ -905,9 +911,19 @@ body {
           justify-content: center;
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  position: relative;
+  overflow: hidden;
 }
 
-.main--admin__upload #formUno, .main--admin__upload #formDos, .main--admin__upload #formTres {
+.main--admin__upload #closeUpload {
+  position: absolute;
+  font-weight: 700;
+  right: 30%;
+  top: 10%;
+  cursor: pointer;
+}
+
+.main--admin__upload #formUno, .main--admin__upload #formDos, .main--admin__upload #formTres, .main--admin__upload #formCuatro {
   width: 50%;
   height: 90%;
   border: 1px solid var(--main-bg);
@@ -925,15 +941,32 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   font-weight: 700;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  -webkit-transition: 0.6s;
+  transition: 0.6s;
 }
 
-.main--admin__upload #formUno #addDesc, .main--admin__upload #formDos #addDesc, .main--admin__upload #formTres #addDesc {
+.main--admin__upload #formUno .checkboxes, .main--admin__upload #formDos .checkboxes, .main--admin__upload #formTres .checkboxes, .main--admin__upload #formCuatro .checkboxes {
+  width: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.main--admin__upload #formUno .checkboxes input, .main--admin__upload #formDos .checkboxes input, .main--admin__upload #formTres .checkboxes input, .main--admin__upload #formCuatro .checkboxes input {
+  margin: 0;
+}
+
+.main--admin__upload #formUno #addDesc, .main--admin__upload #formDos #addDesc, .main--admin__upload #formTres #addDesc, .main--admin__upload #formCuatro #addDesc {
   border: solid 1px var(--main-bg);
 }
 
-.main--admin__upload #formUno input, .main--admin__upload #formDos input, .main--admin__upload #formTres input {
+.main--admin__upload #formUno input, .main--admin__upload #formDos input, .main--admin__upload #formTres input, .main--admin__upload #formCuatro input {
   width: 40%;
   border: none;
   background-color: transparent;
@@ -942,7 +975,7 @@ body {
   margin-top: -1rem;
 }
 
-.main--admin__upload #formUno #submitForm1, .main--admin__upload #formUno #submitForm2, .main--admin__upload #formUno #submitForm3, .main--admin__upload #formDos #submitForm1, .main--admin__upload #formDos #submitForm2, .main--admin__upload #formDos #submitForm3, .main--admin__upload #formTres #submitForm1, .main--admin__upload #formTres #submitForm2, .main--admin__upload #formTres #submitForm3 {
+.main--admin__upload #formUno #submitForm1, .main--admin__upload #formUno #submitForm2, .main--admin__upload #formUno #submitForm3, .main--admin__upload #formUno #submitForm4, .main--admin__upload #formDos #submitForm1, .main--admin__upload #formDos #submitForm2, .main--admin__upload #formDos #submitForm3, .main--admin__upload #formDos #submitForm4, .main--admin__upload #formTres #submitForm1, .main--admin__upload #formTres #submitForm2, .main--admin__upload #formTres #submitForm3, .main--admin__upload #formTres #submitForm4, .main--admin__upload #formCuatro #submitForm1, .main--admin__upload #formCuatro #submitForm2, .main--admin__upload #formCuatro #submitForm3, .main--admin__upload #formCuatro #submitForm4 {
   border: 1px solid var(--main-bg);
   font-weight: 700;
   -webkit-transition: 0.5s;
@@ -951,12 +984,12 @@ body {
   padding: 0.5rem 0rem;
 }
 
-.main--admin__upload #formUno #submitForm1:hover, .main--admin__upload #formUno #submitForm2:hover, .main--admin__upload #formUno #submitForm3:hover, .main--admin__upload #formDos #submitForm1:hover, .main--admin__upload #formDos #submitForm2:hover, .main--admin__upload #formDos #submitForm3:hover, .main--admin__upload #formTres #submitForm1:hover, .main--admin__upload #formTres #submitForm2:hover, .main--admin__upload #formTres #submitForm3:hover {
+.main--admin__upload #formUno #submitForm1:hover, .main--admin__upload #formUno #submitForm2:hover, .main--admin__upload #formUno #submitForm3:hover, .main--admin__upload #formUno #submitForm3:hover, .main--admin__upload #formDos #submitForm1:hover, .main--admin__upload #formDos #submitForm2:hover, .main--admin__upload #formDos #submitForm3:hover, .main--admin__upload #formDos #submitForm3:hover, .main--admin__upload #formTres #submitForm1:hover, .main--admin__upload #formTres #submitForm2:hover, .main--admin__upload #formTres #submitForm3:hover, .main--admin__upload #formTres #submitForm3:hover, .main--admin__upload #formCuatro #submitForm1:hover, .main--admin__upload #formCuatro #submitForm2:hover, .main--admin__upload #formCuatro #submitForm3:hover, .main--admin__upload #formCuatro #submitForm3:hover {
   background-color: var(--main-bg);
   color: var(--main-card);
 }
 
-.main--admin__upload #formUno #showDesc, .main--admin__upload #formDos #showDesc, .main--admin__upload #formTres #showDesc {
+.main--admin__upload #formUno #showDesc, .main--admin__upload #formDos #showDesc, .main--admin__upload #formTres #showDesc, .main--admin__upload #formCuatro #showDesc {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -970,7 +1003,7 @@ body {
   width: 80%;
 }
 
-.main--admin__upload #formUno #showDesc .itemDesc, .main--admin__upload #formDos #showDesc .itemDesc, .main--admin__upload #formTres #showDesc .itemDesc {
+.main--admin__upload #formUno #showDesc .itemDesc, .main--admin__upload #formDos #showDesc .itemDesc, .main--admin__upload #formTres #showDesc .itemDesc, .main--admin__upload #formCuatro #showDesc .itemDesc {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -985,13 +1018,32 @@ body {
   margin-top: 1rem;
 }
 
-.main--admin__upload #formUno #showDesc .itemDesc .deleteDesc, .main--admin__upload #formDos #showDesc .itemDesc .deleteDesc, .main--admin__upload #formTres #showDesc .itemDesc .deleteDesc {
+.main--admin__upload #formUno #showDesc .itemDesc span, .main--admin__upload #formDos #showDesc .itemDesc span, .main--admin__upload #formTres #showDesc .itemDesc span, .main--admin__upload #formCuatro #showDesc .itemDesc span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
+.main--admin__upload #formUno #showDesc .itemDesc .deleteDesc, .main--admin__upload #formDos #showDesc .itemDesc .deleteDesc, .main--admin__upload #formTres #showDesc .itemDesc .deleteDesc, .main--admin__upload #formCuatro #showDesc .itemDesc .deleteDesc {
   margin-top: 0.4rem;
   border: solid 1px var(--main-bg);
 }
 
-.main--admin__upload #formDos, .main--admin__upload #formTres {
+.main--admin__upload #formDos, .main--admin__upload #formTres, .main--admin__upload #formCuatro {
   display: none;
+  opacity: 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .main--admin__upload #formUno, .main--admin__upload #formDos, .main--admin__upload #formTres, .main--admin__upload #formCuatro {
+    width: 70%;
+    overflow: hidden;
+  }
+  .main--admin__upload #formUno input, .main--admin__upload #formDos input, .main--admin__upload #formTres input, .main--admin__upload #formCuatro input {
+    width: 70%;
+  }
 }
 
 .main--admin__edit {
@@ -1011,9 +1063,18 @@ body {
           justify-content: center;
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  position: relative;
 }
 
-.main--admin__edit #formUnoEdit, .main--admin__edit #formDosEdit, .main--admin__edit #formTresEdit {
+.main--admin__edit #closeEdit {
+  position: absolute;
+  font-weight: 700;
+  right: 30%;
+  top: 10%;
+  cursor: pointer;
+}
+
+.main--admin__edit #formUnoEdit, .main--admin__edit #formDosEdit, .main--admin__edit #formTresEdit, .main--admin__edit #formCuatroEdit {
   width: 50%;
   height: 90%;
   border: 1px solid var(--main-bg);
@@ -1031,11 +1092,11 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   font-weight: 700;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  -webkit-transition: 0.6s;
+  transition: 0.6s;
 }
 
-.main--admin__edit #formUnoEdit input, .main--admin__edit #formDosEdit input, .main--admin__edit #formTresEdit input {
+.main--admin__edit #formUnoEdit input, .main--admin__edit #formDosEdit input, .main--admin__edit #formTresEdit input, .main--admin__edit #formCuatroEdit input {
   width: 40%;
   border: none;
   background-color: transparent;
@@ -1044,7 +1105,24 @@ body {
   margin-top: -1rem;
 }
 
-.main--admin__edit #formUnoEdit #submitEdit1, .main--admin__edit #formUnoEdit #submitEdit2, .main--admin__edit #formUnoEdit #submitEdit3, .main--admin__edit #formDosEdit #submitEdit1, .main--admin__edit #formDosEdit #submitEdit2, .main--admin__edit #formDosEdit #submitEdit3, .main--admin__edit #formTresEdit #submitEdit1, .main--admin__edit #formTresEdit #submitEdit2, .main--admin__edit #formTresEdit #submitEdit3 {
+.main--admin__edit #formUnoEdit .checkboxes, .main--admin__edit #formDosEdit .checkboxes, .main--admin__edit #formTresEdit .checkboxes, .main--admin__edit #formCuatroEdit .checkboxes {
+  width: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.main--admin__edit #formUnoEdit .checkboxes input, .main--admin__edit #formDosEdit .checkboxes input, .main--admin__edit #formTresEdit .checkboxes input, .main--admin__edit #formCuatroEdit .checkboxes input {
+  margin: 0;
+}
+
+.main--admin__edit #formUnoEdit #submitEdit1, .main--admin__edit #formUnoEdit #submitEdit2, .main--admin__edit #formUnoEdit #submitEdit3, .main--admin__edit #formUnoEdit #submitEdit4, .main--admin__edit #formDosEdit #submitEdit1, .main--admin__edit #formDosEdit #submitEdit2, .main--admin__edit #formDosEdit #submitEdit3, .main--admin__edit #formDosEdit #submitEdit4, .main--admin__edit #formTresEdit #submitEdit1, .main--admin__edit #formTresEdit #submitEdit2, .main--admin__edit #formTresEdit #submitEdit3, .main--admin__edit #formTresEdit #submitEdit4, .main--admin__edit #formCuatroEdit #submitEdit1, .main--admin__edit #formCuatroEdit #submitEdit2, .main--admin__edit #formCuatroEdit #submitEdit3, .main--admin__edit #formCuatroEdit #submitEdit4 {
   border: 1px solid var(--main-bg);
   font-weight: 700;
   -webkit-transition: 0.5s;
@@ -1053,12 +1131,12 @@ body {
   padding: 0.5rem 0rem;
 }
 
-.main--admin__edit #formUnoEdit #submitEdit1:hover, .main--admin__edit #formUnoEdit #submitEdit2:hover, .main--admin__edit #formUnoEdit #submitEdit3:hover, .main--admin__edit #formDosEdit #submitEdit1:hover, .main--admin__edit #formDosEdit #submitEdit2:hover, .main--admin__edit #formDosEdit #submitEdit3:hover, .main--admin__edit #formTresEdit #submitEdit1:hover, .main--admin__edit #formTresEdit #submitEdit2:hover, .main--admin__edit #formTresEdit #submitEdit3:hover {
+.main--admin__edit #formUnoEdit #submitEdit1:hover, .main--admin__edit #formUnoEdit #submitEdit2:hover, .main--admin__edit #formUnoEdit #submitEdit3:hover, .main--admin__edit #formUnoEdit #submitEdit4:hover, .main--admin__edit #formDosEdit #submitEdit1:hover, .main--admin__edit #formDosEdit #submitEdit2:hover, .main--admin__edit #formDosEdit #submitEdit3:hover, .main--admin__edit #formDosEdit #submitEdit4:hover, .main--admin__edit #formTresEdit #submitEdit1:hover, .main--admin__edit #formTresEdit #submitEdit2:hover, .main--admin__edit #formTresEdit #submitEdit3:hover, .main--admin__edit #formTresEdit #submitEdit4:hover, .main--admin__edit #formCuatroEdit #submitEdit1:hover, .main--admin__edit #formCuatroEdit #submitEdit2:hover, .main--admin__edit #formCuatroEdit #submitEdit3:hover, .main--admin__edit #formCuatroEdit #submitEdit4:hover {
   background-color: var(--main-bg);
   color: var(--main-card);
 }
 
-.main--admin__edit #formUnoEdit #showDescEdit, .main--admin__edit #formDosEdit #showDescEdit, .main--admin__edit #formTresEdit #showDescEdit {
+.main--admin__edit #formUnoEdit #showDescEdit, .main--admin__edit #formDosEdit #showDescEdit, .main--admin__edit #formTresEdit #showDescEdit, .main--admin__edit #formCuatroEdit #showDescEdit {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1073,7 +1151,7 @@ body {
   list-style: none;
 }
 
-.main--admin__edit #formUnoEdit #showDescEdit .itemDesc, .main--admin__edit #formDosEdit #showDescEdit .itemDesc, .main--admin__edit #formTresEdit #showDescEdit .itemDesc {
+.main--admin__edit #formUnoEdit #showDescEdit .itemDesc, .main--admin__edit #formDosEdit #showDescEdit .itemDesc, .main--admin__edit #formTresEdit #showDescEdit .itemDesc, .main--admin__edit #formCuatroEdit #showDescEdit .itemDesc {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1088,13 +1166,14 @@ body {
   margin-top: 1rem;
 }
 
-.main--admin__edit #formUnoEdit #showDescEdit .itemDesc .deleteDesc, .main--admin__edit #formDosEdit #showDescEdit .itemDesc .deleteDesc, .main--admin__edit #formTresEdit #showDescEdit .itemDesc .deleteDesc {
+.main--admin__edit #formUnoEdit #showDescEdit .itemDesc .deleteDesc, .main--admin__edit #formDosEdit #showDescEdit .itemDesc .deleteDesc, .main--admin__edit #formTresEdit #showDescEdit .itemDesc .deleteDesc, .main--admin__edit #formCuatroEdit #showDescEdit .itemDesc .deleteDesc {
   margin-top: 0.4rem;
   border: solid 1px var(--main-bg);
 }
 
-.main--admin__edit #formDosEdit, .main--admin__edit #formTresEdit {
+.main--admin__edit #formDosEdit, .main--admin__edit #formTresEdit, .main--admin__edit #formCuatroEdit {
   display: none;
+  opacity: 0;
 }
 
 .main--admin__list {
@@ -1192,12 +1271,6 @@ body {
 .main--admin__list .closeList:hover {
   background-color: var(--main-bg);
   color: var(--main-card);
-}
-
-@media screen and (max-width: 1200px) {
-  .main--admin__login form input {
-    width: 70%;
-  }
 }
 
 .card {
