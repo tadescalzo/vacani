@@ -190,21 +190,21 @@ const clickFunction = (container, mainTitle) => {
                     <div class="carousel-inner">
                       <div class="carousel-item active">
                         <img
-                          src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
+                          src="https://static.tokkobroker.com/pictures/17870138982854605491891921991324272662244862528759588289694033384445798125941.jpg"
                           class="d-block w-100"
                           alt="..."
                         />
                       </div>
                       <div class="carousel-item">
                         <img
-                          src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
+                          src="https://static.tokkobroker.com/pictures/17870138982854605491891921991324272662244862528759588289694033384445798125941.jpg"
                           class="d-block w-100"
                           alt="..."
                         />
                       </div>
                       <div class="carousel-item">
                         <img
-                          src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
+                          src="https://static.tokkobroker.com/pictures/17870138982854605491891921991324272662244862528759588289694033384445798125941.jpg"
                           class="d-block w-100"
                           alt="..."
                         />
@@ -275,7 +275,7 @@ const clickFunction = (container, mainTitle) => {
                     <input type="text" id="submitPhone" />
                     <input
                       type="button"
-                      value="Quiero que me contacten"
+                      value="Enviar Consulta"
                       id="submitBtn"
                     />
                     <a
@@ -339,7 +339,7 @@ closeMobile.addEventListener("click", () => {
 /*FILTRO ALQUILAR*/
 navAlq.addEventListener("click", (e) => {
   global
-    .where("type", "==", "alquiler")
+    .where("type", "==", "Alquiler")
     .get()
     .then((querySnapshot) => {
       e.preventDefault();
@@ -605,52 +605,56 @@ navBuy.addEventListener("click", (e) => {
 /*FILTRO COMPRA*/
 mainBtn.addEventListener("click", (e) => {
   let type = typeFilter.value;
-  global
-    .where("type", "==", type)
-    .get()
-    .then((querySnapshot) => {
-      e.preventDefault();
-      menuMobile.style.opacity = 0;
-      closeMobile.style.opacity = 0;
-
-      setTimeout(() => {
-        menuMobile.style.display = "none";
-        closeMobile.style.display = "none";
-      }, 300);
-      scroll({
-        top: 320,
-        behavior: "smooth",
-      });
-      setTimeout(() => {
-        main.innerHTML = `<div class="modal"></div><h2 class="main--title">Comprar</h2><div class="main--container"></div>`;
-        querySnapshot.forEach((doc) => {
-          /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
-          let result = doc.data();
-          let container = document.querySelector(".main--container");
-          let mainTitle = document.querySelector(".main--title");
-          const {
-            id,
-            baths,
-            city,
-            desc,
-            dir,
-            exp,
-            garage,
-            lat,
-            long,
-            mets,
-            old,
-            price,
-            mode,
-            rooms,
-            services,
-            title,
-            type,
-            usedMets,
-          } = result;
-          let wppTxt = title.split(" ").join("+");
-          wppTxt += `+${dir}`;
-          container.innerHTML += `<article class="card" data-item=${id}>
+  let city = cityFilter.value;
+  let prop = propFilter.value;
+  e.preventDefault();
+  if (city == "Todas") {
+    let query = global.where("type", "==", type).where("propCat", "==", prop);
+    query
+      .get()
+      .then((querySnapshot) => {
+        e.preventDefault();
+        menuMobile.style.opacity = 0;
+        closeMobile.style.opacity = 0;
+        console.log("test");
+        setTimeout(() => {
+          menuMobile.style.display = "none";
+          closeMobile.style.display = "none";
+        }, 300);
+        scroll({
+          top: 320,
+          behavior: "smooth",
+        });
+        setTimeout(() => {
+          main.innerHTML = `<div class="modal"></div><h2 class="main--title">Resultado de: ${type}, ${city}, ${prop} </h2><div class="main--container"></div>`;
+          querySnapshot.forEach((doc) => {
+            /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
+            let result = doc.data();
+            let container = document.querySelector(".main--container");
+            let mainTitle = document.querySelector(".main--title");
+            const {
+              id,
+              baths,
+              city,
+              desc,
+              dir,
+              exp,
+              garage,
+              lat,
+              long,
+              mets,
+              old,
+              price,
+              mode,
+              rooms,
+              services,
+              title,
+              type,
+              usedMets,
+            } = result;
+            let wppTxt = title.split(" ").join("+");
+            wppTxt += `+${dir}`;
+            container.innerHTML += `<article class="card" data-item=${id}>
           <div class="card--top">
             <div id="carousel${id}" data-item=${id} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
               <div class="carousel-inner">
@@ -724,16 +728,150 @@ mainBtn.addEventListener("click", (e) => {
             </div>
           </div>
         </article>`;
-          clickFunction("id", container, mainTitle);
-        }, 500);
+            clickFunction("id", container, mainTitle);
+          }, 500);
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+        console.log("hay 0 objetos");
+        let container = document.querySelector(".main--container");
+        container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
       });
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-      console.log("hay 0 objetos");
-      let container = document.querySelector(".main--container");
-      container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
-    });
+  } else {
+    let query = global
+      .where("type", "==", type)
+      .where("city", "==", city)
+      .where("propCat", "==", prop);
+    query
+      .get()
+      .then((querySnapshot) => {
+        e.preventDefault();
+        menuMobile.style.opacity = 0;
+        closeMobile.style.opacity = 0;
+        console.log("test");
+        setTimeout(() => {
+          menuMobile.style.display = "none";
+          closeMobile.style.display = "none";
+        }, 300);
+        scroll({
+          top: 320,
+          behavior: "smooth",
+        });
+        setTimeout(() => {
+          main.innerHTML = `<div class="modal"></div><h2 class="main--title">Resultado de: ${type}, ${city}, ${prop} </h2><div class="main--container"></div>`;
+          querySnapshot.forEach((doc) => {
+            /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
+            let result = doc.data();
+            let container = document.querySelector(".main--container");
+            let mainTitle = document.querySelector(".main--title");
+            const {
+              id,
+              baths,
+              city,
+              desc,
+              dir,
+              exp,
+              garage,
+              lat,
+              long,
+              mets,
+              old,
+              price,
+              mode,
+              rooms,
+              services,
+              title,
+              type,
+              usedMets,
+            } = result;
+            let wppTxt = title.split(" ").join("+");
+            wppTxt += `+${dir}`;
+            container.innerHTML += `<article class="card" data-item=${id}>
+          <div class="card--top">
+            <div id="carousel${id}" data-item=${id} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img
+                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div class="card--bottom">
+            <p class="card--bottom__type">
+            ${type}
+            </p>
+            <p class="card--bottom__desc">
+              ${title}
+            </p>
+            <span class="card--bottom__price">${price}</span>
+            ${
+              exp != 0
+                ? `<span class="card--bottom__exp">+${exp}</span>`
+                : `<span class="card--bottom__exp">Sin Expensas</span>`
+            }
+            <div class="card--bottom__line"></div>
+            <div class="card--bottom__info">
+              <p><strong>${mets}</strong> m² totales</p>
+              <p><strong>${baths}</strong> baños</p>
+              <p><strong>${usedMets}</strong> m² cubiertos</p>
+              <p><strong>${rooms}</strong> ambientes</p>
+            </div>
+          </div>
+        </article>`;
+            clickFunction("id", container, mainTitle);
+          }, 500);
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+        console.log("hay 0 objetos");
+        let container = document.querySelector(".main--container");
+        container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
+      });
+  }
 });
 
 /*FUNCION MAIN, PETICION DE INFORMACION*/
@@ -838,453 +976,4 @@ global.get().then((querySnapshot) => {
     /*FUNCION CLICK*/
     clickFunction(container, mainTitle);
   });
-});
-
-/*ABRIR LISTA*/
-openList.addEventListener("click", () => {
-  menu.style.opacity = 0;
-  modalList.style.opacity = 1;
-  setTimeout(() => {
-    adminList.innerHTML = "";
-    menu.style.display = "none";
-    modalList.style.display = "flex";
-    global.get().then((querySnapshot) => {
-      querySnapshot.forEach((item) => {
-        let prop = item.data();
-        let uniqueId = item.id;
-        const {
-          id,
-          baths,
-          city,
-          desc,
-          dir,
-          exp,
-          garage,
-          lat,
-          long,
-          mets,
-          old,
-          price,
-          mode,
-          rooms,
-          services,
-          title,
-          type,
-          usedMets,
-        } = prop;
-        adminList.innerHTML += `<li class="listItem" data-id="${uniqueId}">
-        <h4 class="listId">ID: ${id}</h4>
-        <h3 class="listTitle">Propiedad: ${dir}</h3>
-        <h3 class="listType">${type}</h3>
-        <h3 class="listPrice">Precio: ${price}</h3>
-        <button class="editList">Editar</button>
-        <button class="deleteList">Eliminar</button>
-        </li>`;
-        /*BORRAR ITEM*/
-        let borrado = document.querySelectorAll(".deleteList");
-        for (boton of borrado) {
-          boton.addEventListener("click", (e) => {
-            let child = e.target;
-            let parent = child.parentElement;
-            let dataId = parent.getAttribute("data-id");
-            global
-              .doc(dataId)
-              .delete()
-              .then(() => {
-                console.log("Document successfully deleted!");
-                location.reload();
-              })
-              .catch((error) => {
-                console.error("Error removing document: ", error);
-              });
-          });
-        }
-        /*EDITAR ITEM*/
-        let editados = document.querySelectorAll(".editList");
-        for (edit of editados) {
-          edit.addEventListener("click", (e) => {
-            let child = e.target;
-            let parent = child.parentElement;
-            let dataId = parent.getAttribute("data-id");
-            var propsRef = db.collection("global").doc(dataId);
-            propsRef.get().then((doc) => {
-              let prop = doc.data();
-              const {
-                id,
-                baths,
-                city,
-                desc,
-                dir,
-                exp,
-                garage,
-                lat,
-                long,
-                mets,
-                old,
-                price,
-                propCat,
-                rooms,
-                services,
-                title,
-                type,
-                usedMets,
-              } = prop;
-              modalList.style.opacity = 0;
-              modalEdit.style.display = "flex";
-              formUno.style.display = "flex";
-              setTimeout(() => {
-                editTitle.value = title;
-                editLocate.value = city;
-                editDir.value = dir;
-                editType.value = type;
-                editPrice.value = price;
-                editExp.value = exp;
-                editMets.value = mets;
-                editUsedmets.value = usedMets;
-                editRooms.value = rooms;
-                editBaths.value = baths;
-                editCar.value = garage;
-                editAge.value = old;
-                showDescEdit.innerHTML = desc;
-                descTestEdit = desc;
-                editLat.value = lat;
-                editLong.value = long;
-                editProp.value = propCat;
-                modalList.style.display = "none";
-                modalEdit.style.opacity = 1;
-                formUnoEdit.style.opacity = 1;
-              }, 500);
-              /*FIRST CONFIRM EDIT*/
-              submitEdit1.addEventListener("click", () => {
-                formUnoEdit.style.opacity = 0;
-                formDosEdit.style.display = "flex";
-                setTimeout(() => {
-                  formUnoEdit.style.display = "none";
-                  formDosEdit.style.opacity = 1;
-                  let deleteDesc = document.querySelectorAll(".deleteDesc");
-                  /*DELETE DESC*/
-                  deleteDesc.forEach((delBtn) => {
-                    delBtn.addEventListener("click", (e) => {
-                      e.preventDefault();
-                      let parentDel = delBtn.parentNode;
-                      console.log(parentDel);
-                      parentDel.parentNode.removeChild(parentDel);
-                      let htmlDescEdit = showDescEdit.innerHTML;
-                      descTestEdit = htmlDescEdit;
-                    });
-                  });
-                  /*ADD DESC*/
-                  addDescEdit.addEventListener("click", () => {
-                    let descResult = editDesc.value;
-                    showDescEdit.innerHTML = "";
-                    descTestEdit += `<li class="itemDesc"><span>${descResult}</span><input type='button' value='Eliminar' class="deleteDesc" /></li>`;
-                    showDescEdit.innerHTML = descTestEdit;
-                    editDesc.value = "";
-                    deleteDesc = document.querySelectorAll(".deleteDesc");
-                    deleteDesc.forEach((delBtn) => {
-                      delBtn.addEventListener("click", (e) => {
-                        e.preventDefault();
-                        let parentDel = delBtn.parentNode;
-                        console.log(parentDel);
-                        parentDel.parentNode.removeChild(parentDel);
-                        let htmlDescEdit = showDescEdit.innerHTML;
-                        descTestEdit = htmlDescEdit;
-                      });
-                    });
-                  });
-                }, 500);
-              });
-              /*SECOND CONFIRM EDIT*/
-              submitEdit2.addEventListener("click", () => {
-                formDosEdit.style.opacity = 0;
-                formTresEdit.style.display = "flex";
-                setTimeout(() => {
-                  formDosEdit.style.display = "none";
-                  formTresEdit.style.opacity = 1;
-                }, 500);
-              });
-              /*THIRD CONFIRM UPLOAD*/
-              submitEdit3.addEventListener("click", () => {
-                formTresEdit.style.opacity = 0;
-                console.log("click");
-                /*ADD ITEMS TO DB*/
-                let title = editTitle.value;
-                let city = editLocate.value;
-                let dir = editDir.value;
-                let type = editType.value;
-                let price = editPrice.value;
-                let exp = editExp.value;
-                let mets = editMets.value;
-                let usedMets = editUsedmets.value;
-                let rooms = editRooms.value;
-                let baths = editBaths.value;
-                let garage = editCar.value;
-                let age = editAge.value;
-                let desc = descTestEdit;
-                let lat = editLat.value;
-                let long = editLong.value;
-                let propCat = editProp.value;
-                propsRef
-                  .update({
-                    title: title,
-                    price: price,
-                    exp: exp,
-                    mets: mets,
-                    usedMets: usedMets,
-                    rooms: rooms,
-                    garage: garage,
-                    old: age,
-                    baths: baths,
-                    city: city,
-                    type: type,
-                    propCat: propCat,
-                    lat: lat,
-                    long: long,
-                    desc: desc,
-                    services: {
-                      Internet: false,
-                      Electricidad: true,
-                      Gas: true,
-                      Pavimento: true,
-                      Agua: true,
-                    },
-                    dir: dir,
-                  })
-                  .then((docRef) => {
-                    Swal.fire({
-                      position: "top-end",
-                      icon: "success",
-                      title: "Item actualizado",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    });
-                  })
-                  .catch((error) => {
-                    console.error("Error adding document: ", error);
-                  });
-
-                editTitle.value = "";
-                editLocate.value = "";
-                editType.value = "";
-                editPrice.value = "";
-                editExp.value = "";
-                editMets.value = "";
-                editUsedmets.value = "";
-                editRooms.value = "";
-                editCar.value = "";
-                editAge.value = "";
-                editDesc.value = "";
-                editLat.value = "";
-                editLong.value = "";
-                setTimeout(() => {
-                  formTres.style.display = "none";
-                  modalEdit.style.display = "none";
-                  menu.style.display = "flex";
-                  menu.style.opacity = 1;
-                }, 500);
-              });
-            });
-          });
-        }
-      });
-    });
-  }, 500);
-});
-/*CERRAR LISTA*/
-closeList.addEventListener("click", () => {
-  modalList.style.opacity = 0;
-  menu.style.display = "flex";
-  setTimeout(() => {
-    adminList.innerHTML = "";
-    modalList.style.display = "none";
-    menu.style.opacity = 1;
-  }, 500);
-});
-/*LOGIN*/
-loginBtn.addEventListener("click", (e) => {
-  e.preventDefault;
-  let email = loginUser.value;
-  let password = loginPass.value;
-  console.log("click");
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      console.log(user);
-      // ...
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-    });
-});
-
-contador.get().then((doc) => {
-  let id = doc.data();
-  /*OPEN UPLOAD MODAL*/
-  openUpload.addEventListener("click", () => {
-    menu.style.opacity = 0;
-    setTimeout(() => {
-      menu.style.display = "none";
-      uploadModal.style.display = "flex";
-    }, 500);
-  });
-
-  /*FIRST CONFIRM UPLOAD*/
-  submitForm1.addEventListener("click", () => {
-    formUno.style.opacity = 0;
-    formDos.style.display = "flex";
-    setTimeout(() => {
-      formUno.style.display = "none";
-      formDos.style.opacity = 1;
-      let deleteDesc = document.querySelectorAll(".deleteDesc");
-      /*DELETE DESC*/
-      deleteDesc.forEach((delBtn) => {
-        delBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          let parentDel = delBtn.parentNode;
-          console.log(parentDel);
-          parentDel.parentNode.removeChild(parentDel);
-          let htmlDesc = showDesc.innerHTML;
-          descTest = htmlDesc;
-        });
-      });
-    }, 500);
-  });
-  /*SECOND CONFIRM UPLOAD*/
-  submitForm2.addEventListener("click", () => {
-    formDos.style.opacity = 0;
-    formTres.style.display = "flex";
-    setTimeout(() => {
-      formDos.style.display = "none";
-      formTres.style.opacity = 1;
-    }, 500);
-  });
-  /*ADD DESC*/
-  addDesc.addEventListener("click", () => {
-    let descResult = itemDesc.value;
-    showDesc.innerHTML = "";
-    descTest += `<li class="itemDesc"><span>${descResult}</span><input type='button' value='Eliminar' class="deleteDesc" /></li>`;
-    showDesc.innerHTML = descTest;
-    itemDesc.value = "";
-    deleteDesc = document.querySelectorAll(".deleteDesc");
-
-    /*DELETE DESC*/
-    deleteDesc.forEach((delBtn) => {
-      delBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        let parentDel = delBtn.parentNode;
-        console.log(parentDel);
-        parentDel.parentNode.removeChild(parentDel);
-        let htmlDesc = showDesc.innerHTML;
-        descTest = htmlDesc;
-      });
-    });
-  });
-
-  /*THIRD CONFIRM UPLOAD*/
-  submitForm3.addEventListener("click", () => {
-    formTres.style.opacity = 0;
-    /*ADD ITEMS TO DB*/
-    let title = itemTitle.value;
-    let city = itemLocate.value;
-    let dir = itemDir.value;
-    let type = itemType.value;
-    let price = itemPrice.value;
-    let exp = itemExp.value;
-    let mets = itemMets.value;
-    let usedMets = itemUsedmets.value;
-    let rooms = itemRooms.value;
-    let baths = itemBaths.value;
-    let garage = itemCar.value;
-    let age = itemAge.value;
-    let desc = descTest;
-    let lat = itemLat.value;
-    let long = itemLong.value;
-    let propCat = itemProp.value;
-    let idFinal = id.id;
-    db.collection("global")
-      .add({
-        title: title,
-        price: price,
-        exp: exp,
-        mets: mets,
-        usedMets: usedMets,
-        rooms: rooms,
-        garage: garage,
-        old: age,
-        id: idFinal,
-        baths: baths,
-        city: city,
-        type: type,
-        propCat: propCat,
-        lat: lat,
-        long: long,
-        desc: desc,
-        services: {
-          Internet: false,
-          Electricidad: true,
-          Gas: true,
-          Pavimento: true,
-          Agua: true,
-        },
-        dir: dir,
-      })
-      .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-        let data = docRef;
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Item cargado",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        idFinal++;
-        contador
-          .update({
-            id: idFinal,
-          })
-          .then(() => {
-            console.log("se actualizo el id: ", idFinal);
-          });
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
-
-    itemTitle.value = "";
-    itemLocate.value = "";
-    itemType.value = "";
-    itemPrice.value = "";
-    itemExp.value = "";
-    itemMets.value = "";
-    itemUsedmets.value = "";
-    itemRooms.value = "";
-    itemCar.value = "";
-    itemAge.value = "";
-    itemDesc.value = "";
-    itemLat.value = "";
-    itemLong.value = "";
-    setTimeout(() => {
-      formTres.style.display = "none";
-      uploadModal.style.display = "none";
-      menu.style.display = "flex";
-      menu.style.opacity = 1;
-    }, 500);
-  });
-});
-
-/*IF ADMIN IS LOGGED ON*/
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    login.style.display = "none";
-    menu.style.display = "flex";
-  } else {
-    // User is signed out
-    // ...
-  }
 });

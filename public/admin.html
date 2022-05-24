@@ -43,7 +43,6 @@
           <a href="index.html" class="navHome"><li>Home</li></a>
           <a href="#" class="navBuy"><li>Comprar</li></a>
           <a href="#" class="navAlq"><li>Alquilar</li></a>
-          <a href="#" class="navSell"><li>Vender</li></a>
           <a href="#" class="navFaq"><li>¿Quienes somos?</li></a>
           <a href="#" class="navCont"><li>Contacto</li></a>
         </ul>
@@ -65,8 +64,9 @@
         <button class="openList">Ver publicaciones</button>
       </section>
       <section class="main--admin__upload">
+        <span id="closeUpload">x</span>
         <form action="submit" id="formUno">
-          <h3>1/3</h3>
+          <h3>1/4</h3>
           <label for="itemTitle">Titulo</label>
           <input type="text" id="itemTitle" />
           <label for="itemLocate">Ciudad</label>
@@ -75,8 +75,8 @@
           <input type="text" id="itemDir" />
           <label for="itemType">Modalidad</label>
           <select name="type" id="itemType">
-            <option value="alquiler">Alquiler</option>
-            <option value="venta">Venta</option>
+            <option value="Alquiler">Alquiler</option>
+            <option value="Venta">Venta</option>
           </select>
           <label for="itemProp">Tipo de inmueble</label>
           <select name="type" id="itemProp">
@@ -84,7 +84,17 @@
             <option value="Casa">Casa</option>
             <option value="Oficina">Oficina</option>
             <option value="PH">PH</option>
+            <option value="Lote">Lote</option>
+            <option value="Duplex">Duplex</option>
+            <option value="Triplex">Triplex</option>
+            <option value="Local">Local</option>
+            <option value="Galeria">Galeria</option>
+            <option value="Cochera">Cochera</option>
           </select>
+          <input type="button" value="Continuar" id="submitForm1" />
+        </form>
+        <form action="submit" id="formDos">
+          <h3>2/4</h3>
           <label for="itemPrice">Valor</label>
           <input type="text" id="itemPrice" />
           <label for="itemExp">Expensas</label>
@@ -101,31 +111,44 @@
           <input type="text" id="itemCar" />
           <label for="itemAge">Antiguedad</label>
           <input type="text" id="itemAge" />
-          <input type="button" value="Continuar" id="submitForm1" />
+          <input type="button" value="Continuar" id="submitForm2" />
         </form>
-        <form action="" id="formDos">
-          <h3>2/3</h3>
+        <form action="submit" id="formTres">
+          <h3>3/4</h3>
           <label for="itemDesc">Descripcion:</label>
           <input type="text" id="itemDesc" />
           <input type="button" value="Agregar" id="addDesc" />
           <ul id="showDesc"></ul>
-          <label for="itemLat">Mapa Latitud</label>
-          <input type="text" id="itemLat" />
-          <label for="itemLong">Mapa Longitud</label>
-          <input type="text" id="itemLong" />
-          <input type="button" value="Continuar" id="submitForm2" />
+          <div class="checkboxes">
+            <label for="checkNet">Internet</label
+            ><input type="checkbox" id="checkNet" />
+            <label for="checkElec">Electricidad</label
+            ><input type="checkbox" id="checkElec" />
+            <label for="checkGas">Gas</label
+            ><input type="checkbox" id="checkGas" />
+            <label for="checkPav">Pavimento</label
+            ><input type="checkbox" id="checkPav" />
+            <label for="checkAgu">Agua</label
+            ><input type="checkbox" id="checkAgu" />
+            <label for="checkMej">Pavimento Mejorado</label>
+            <input type="checkbox" id="checkMej" />
+            <label for="checkTierra">Calle de tierra</label>
+            <input type="checkbox" id="checkTierra" />
+          </div>
+          <input type="button" value="Continuar" id="submitForm3" />
         </form>
-        <form action="submit" id="formTres">
-          <h3>3/3</h3>
+        <form action="submit" id="formCuatro">
+          <h3>4/4</h3>
           <label for="itemPhoto">Seleccione la foto</label>
           <input type="file" id="itemPhoto" />
           <input type="button" value="Agregar" id="addPhoto" />
-          <input type="button" value="Cargar" id="submitForm3" />
+          <input type="button" value="Cargar" id="submitForm4" />
         </form>
       </section>
       <section class="main--admin__edit">
-        <form action="submit" id="formUnoEdit">
-          <h3>1/3</h3>
+        <span id="closeEdit">x</span>
+        <form action="" id="formUnoEdit">
+          <h3>1/4</h3>
           <label for="editTitle">Titulo</label>
           <input type="text" id="editTitle" />
           <label for="editLocate">Ciudad</label>
@@ -134,8 +157,8 @@
           <input type="text" id="editDir" />
           <label for="editType">Modalidad</label>
           <select name="type" id="editType">
-            <option value="alquiler">Alquiler</option>
-            <option value="venta">Venta</option>
+            <option value="Alquiler">Alquiler</option>
+            <option value="Venta">Venta</option>
           </select>
           <label for="editProp">Tipo de inmueble</label>
           <select name="type" id="editProp">
@@ -143,7 +166,17 @@
             <option value="Casa">Casa</option>
             <option value="Oficina">Oficina</option>
             <option value="PH">PH</option>
+            <option value="Lote">Lote</option>
+            <option value="Duplex">Duplex</option>
+            <option value="Triplex">Triplex</option>
+            <option value="Local">Local</option>
+            <option value="Galeria">Galeria</option>
+            <option value="Cochera">Cochera</option>
           </select>
+          <input type="button" id="submitEdit1" />
+        </form>
+        <form action="" id="formDosEdit">
+          <h3>2/4</h3>
           <label for="editPrice">Valor</label>
           <input type="text" id="editPrice" />
           <label for="editExp">Expensas</label>
@@ -160,26 +193,38 @@
           <input type="text" id="editCar" />
           <label for="editAge">Antiguedad</label>
           <input type="text" id="editAge" />
-          <input type="button" value="Continuar" id="submitEdit1" />
+          <input type="button" value="Continuar" id="submitEdit2" />
         </form>
-        <form action="" id="formDosEdit">
-          <h3>2/3</h3>
+        <form action="" id="formTresEdit">
+          <h3>3/4</h3>
           <label for="editDesc">Descripcion:</label>
           <input type="text" id="editDesc" />
           <input type="button" value="Agregar" id="addDescEdit" />
           <ul id="showDescEdit"></ul>
-          <label for="editLat">Mapa Latitud</label>
-          <input type="text" id="editLat" />
-          <label for="editLong">Mapa Longitud</label>
-          <input type="text" id="editLong" />
-          <input type="button" value="Continuar" id="submitEdit2" />
+          <div class="checkboxes">
+            <label for="checkNet">Internet</label
+            ><input type="checkbox" id="editNet" />
+            <label for="editElec">Electricidad</label
+            ><input type="checkbox" id="editElec" />
+            <label for="editGas">Gas</label
+            ><input type="checkbox" id="editGas" />
+            <label for="editPav">Pavimento</label
+            ><input type="checkbox" id="editPav" />
+            <label for="editAgu">Agua</label
+            ><input type="checkbox" id="editAgu" />
+            <label for="editMej">Pavimento Mejorado</label>
+            <input type="checkbox" id="editMej" />
+            <label for="editTierra">Calle de tierra</label>
+            <input type="checkbox" id="editTierra" />
+          </div>
+          <input type="button" value="Continuar" id="submitEdit3" />
         </form>
-        <form action="submit" id="formTresEdit">
-          <h3>3/3</h3>
+        <form action="" id="formCuatroEdit">
+          <h3>4/4</h3>
           <label for="editPhoto">Seleccione la foto</label>
           <input type="file" id="editPhoto" />
           <input type="button" value="Agregar" id="addPhotoEdit" />
-          <input type="button" value="Cargar" id="submitEdit3" />
+          <input type="button" value="Cargar" id="submitEdit4" />
         </form>
       </section>
       <section class="main--admin__list">
@@ -217,6 +262,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="app.js"></script>
+    <script src="admin.js"></script>
   </body>
 </html>
