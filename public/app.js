@@ -112,6 +112,59 @@ const loadInfo = (services, desc) => {
   modalInfoDesc.innerHTML = desc;
 };
 
+const loadImgs = (id) => {
+  let carousel = document.getElementById(id);
+  console.log(carousel);
+  // Get a reference to the storage service, which is used to create references in your storage bucket
+  var storage = firebase.storage();
+
+  // Create a storage reference from our storage service
+  var storageRef = storage.ref();
+  var listRef = storageRef.child(`${id}`);
+  let contador = 0;
+  // Find all the prefixes and items.
+  listRef
+    .listAll()
+    .then((res) => {
+      console.log(res.items.length);
+      res.items.forEach((itemRef) => {
+        // All the items under listRef.
+        let path = itemRef.fullPath;
+        console.log(path);
+        storageRef
+          .child(path)
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url);
+            if (contador == 0) {
+              carousel.innerHTML += `<div class="carousel-item active">
+              <img
+                src= ${url}
+                class="d-block w-100"
+                alt="..."
+              />
+              </div>`;
+            } else {
+              carousel.innerHTML += `<div class="carousel-item">
+                    <img
+                      src= ${url}
+                      class="d-block w-100"
+                      alt="..."
+                    />
+                    </div>`;
+            }
+            contador++;
+          })
+          .catch((error) => {
+            // Handle any errors
+          });
+      });
+    })
+    .catch((error) => {
+      // Uh-oh, an error occurred!
+    });
+};
+
 /*FUNCION ABRIR MODAL POR ITEM*/
 const clickFunction = (container, mainTitle) => {
   /*UNA VEZ QUE SE CUMPLE CON LA PETICION DE DATOS CARGAMOS LA FUNCION DE MODAL ON CLICK*/
@@ -122,11 +175,9 @@ const clickFunction = (container, mainTitle) => {
       let child = e.target;
       let parent = child.parentElement;
       let dataId = parent.getAttribute("data-item");
-      console.log(parent);
       let reference = db.collection("global").doc(dataId);
       reference.get().then((doc) => {
         let queryResult = doc.data();
-        console.log(queryResult);
         /*SI TOCAMOS LA CARD Y NO ES UNO NI OTRO SE ABRE EL MODAL*/
         if (
           child.className == "card--bottom" ||
@@ -186,34 +237,14 @@ const clickFunction = (container, mainTitle) => {
                   </div> 
               </div>
                 <div class="modal--upper__imgs">
-                  <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img
-                          src="https://static.tokkobroker.com/pictures/17870138982854605491891921991324272662244862528759588289694033384445798125941.jpg"
-                          class="d-block w-100"
-                          alt="..."
-                        />
-                      </div>
-                      <div class="carousel-item">
-                        <img
-                          src="https://static.tokkobroker.com/pictures/17870138982854605491891921991324272662244862528759588289694033384445798125941.jpg"
-                          class="d-block w-100"
-                          alt="..."
-                        />
-                      </div>
-                      <div class="carousel-item">
-                        <img
-                          src="https://static.tokkobroker.com/pictures/17870138982854605491891921991324272662244862528759588289694033384445798125941.jpg"
-                          class="d-block w-100"
-                          alt="..."
-                        />
-                      </div>
+                  <div id="carousel${id}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner" id='${id}'>
+                      
                     </div>
                     <button
                       class="carousel-control-prev"
                       type="button"
-                      data-bs-target="#carousel1"
+                      data-bs-target="#carousel${id}"
                       data-bs-slide="prev"
                     >
                       <span
@@ -225,7 +256,7 @@ const clickFunction = (container, mainTitle) => {
                     <button
                       class="carousel-control-next"
                       type="button"
-                      data-bs-target="#carousel1"
+                      data-bs-target="#carousel${id}"
                       data-bs-slide="next"
                     >
                       <span
@@ -288,7 +319,6 @@ const clickFunction = (container, mainTitle) => {
                   </form>
                   </div>`;
           }, 500);
-
           container.style.display = "none";
           mainTitle.style.display = "none";
           header.style.display = "none";
@@ -305,9 +335,11 @@ const clickFunction = (container, mainTitle) => {
                 container.style.opacity = 1;
                 mainTitle.style.opacity = 1;
                 header.style.opacity = 1;
+                modal.innerHTML = "";
               }, 500);
             });
             loadInfo(services, desc);
+            loadImgs(id);
           }, 600);
         }
       });
@@ -902,28 +934,8 @@ global.get().then((querySnapshot) => {
     container.innerHTML += `<article class="card" data-item=${uniqueId}>
           <div class="card--top">
             <div id="carousel${id}" data-item=${uniqueId} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
+              <div class="carousel-inner" id='${id}'>
+                
               </div>
               <button
                 class="carousel-control-prev"
@@ -975,5 +987,8 @@ global.get().then((querySnapshot) => {
         </article>`;
     /*FUNCION CLICK*/
     clickFunction(container, mainTitle);
+    setTimeout(() => {
+      loadImgs(id);
+    }, 500);
   });
 });

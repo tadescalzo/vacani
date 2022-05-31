@@ -91,14 +91,14 @@
             <option value="Galeria">Galeria</option>
             <option value="Cochera">Cochera</option>
           </select>
-          <input type="button" value="Continuar" id="submitForm1" />
-        </form>
-        <form action="submit" id="formDos">
-          <h3>2/4</h3>
           <label for="itemPrice">Valor</label>
           <input type="text" id="itemPrice" />
           <label for="itemExp">Expensas</label>
           <input type="text" id="itemExp" />
+          <input type="button" value="Continuar" id="submitForm1" />
+        </form>
+        <form action="submit" id="formDos">
+          <h3>2/4</h3>
           <label for="itemMets">Metros² totales</label>
           <input type="text" id="itemMets" />
           <label for="itemUsedmets">Metros² cubiertos</label>
@@ -111,6 +111,12 @@
           <input type="text" id="itemCar" />
           <label for="itemAge">Antiguedad</label>
           <input type="text" id="itemAge" />
+          <label for="itemOri">Orientacion</label>
+          <input type="text" id="itemOri" />
+          <label for="itemDispo">Disposicion</label>
+          <input type="text" id="itemDispo" />
+          <label for="itemPiso">Piso</label>
+          <input type="text" id="itemPiso" />
           <input type="button" value="Continuar" id="submitForm2" />
         </form>
         <form action="submit" id="formTres">
@@ -173,14 +179,14 @@
             <option value="Galeria">Galeria</option>
             <option value="Cochera">Cochera</option>
           </select>
-          <input type="button" id="submitEdit1" />
-        </form>
-        <form action="" id="formDosEdit">
-          <h3>2/4</h3>
           <label for="editPrice">Valor</label>
           <input type="text" id="editPrice" />
           <label for="editExp">Expensas</label>
           <input type="text" id="editExp" />
+          <input type="button" id="submitEdit1" value="Continuar"/>
+        </form>
+        <form action="" id="formDosEdit">
+          <h3>2/4</h3>
           <label for="editMets">Metros² totales</label>
           <input type="text" id="editMets" />
           <label for="editUsedmets">Metros² cubiertos</label>
@@ -193,6 +199,12 @@
           <input type="text" id="editCar" />
           <label for="editAge">Antiguedad</label>
           <input type="text" id="editAge" />
+          <label for="editOri">Orientacion</label>
+          <input type="text" id="editOri" />
+          <label for="editDispo">Disposicion</label>
+          <input type="text" id="editDispo" />
+          <label for="editPiso">Piso</label>
+          <input type="text" id="editPiso" />
           <input type="button" value="Continuar" id="submitEdit2" />
         </form>
         <form action="" id="formTresEdit">
@@ -202,7 +214,7 @@
           <input type="button" value="Agregar" id="addDescEdit" />
           <ul id="showDescEdit"></ul>
           <div class="checkboxes">
-            <label for="checkNet">Internet</label
+            <label for="editNet">Internet</label
             ><input type="checkbox" id="editNet" />
             <label for="editElec">Electricidad</label
             ><input type="checkbox" id="editElec" />
@@ -236,7 +248,10 @@
     <footer class="footer">
       <ul class="footer--media">
         <li class="footer--media__link">
-          <i class="fa-brands fa-instagram"></i> Instagram
+          <i class="fa-brands fa-instagram"></i
+          ><a href="https://www.instagram.com/vacanipropiedades/?hl=es"></a>
+            Instagram</a
+          >
         </li>
         <li class="footer--media__link">
           <i class="fa-brands fa-facebook-f"></i> Facebook
@@ -244,10 +259,18 @@
       </ul>
       <ul class="footer--info">
         <li class="footer--info__link">
-          <i class="fa-brands fa-whatsapp"></i> 1234-5678
+          <i class="fa-brands fa-whatsapp"></i> 15 3010 5048
         </li>
         <li class="footer--info__link">
-          <i class="fa-solid fa-location-dot"></i> Av. Peron 1234, Victoria
+          <i class="fa-solid fa-phone"></i> 4746-7574 / 0292
+        </li>
+        <li class="footer--info__link">
+          <i class="fa-solid fa-envelope"></i> vacaniprop@hotmail.com
+        </li>
+      </ul>
+      <ul class="footer--info">
+        <li class="footer--info__link">
+          <i class="fa-solid fa-location-dot"></i><a href="https://www.google.com.ar/maps/place/vacani+propiedades/@-34.4548107,-58.5377243,19z/data=!3m1!4b1!4m5!3m4!1s0x95bcafe67eed44d1:0x315929b93913b665!8m2!3d-34.4548118!4d-58.5371771" target="_blank"> Av. Peron 3433, Victoria</a>
         </li>
       </ul>
     </footer>

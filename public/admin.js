@@ -63,6 +63,9 @@ let editLat = document.querySelector("#editLat");
 let editLong = document.querySelector("#editLong");
 let editPhoto = document.querySelector("#editPhoto");
 let editProp = document.querySelector("#editProp");
+let editOri = document.querySelector("#editOri");
+let editDispo = document.querySelector("#editDispo");
+let editPiso = document.querySelector("#editPiso");
 let addDescEdit = document.querySelector("#addDescEdit");
 let addPhotoEdit = document.querySelector("#addPhotoEdit");
 let showDescEdit = document.querySelector("#showDescEdit");
@@ -91,6 +94,9 @@ let itemLat = document.querySelector("#itemLat");
 let itemLong = document.querySelector("#itemLong");
 let itemPhoto = document.querySelector("#itemPhoto");
 let itemProp = document.querySelector("#itemProp");
+let itemOri = document.querySelector("#itemOri");
+let itemDispo = document.querySelector("#itemDispo");
+let itemPiso = document.querySelector("#itemPiso");
 let checkNet = document.querySelector("#checkNet");
 let checkElec = document.querySelector("#checkElec");
 let checkGas = document.querySelector("#checkGas");
@@ -195,8 +201,9 @@ openList.addEventListener("click", () => {
                 dir,
                 exp,
                 garage,
-                lat,
-                long,
+                ori,
+                dispo,
+                piso,
                 mets,
                 old,
                 price,
@@ -211,6 +218,7 @@ openList.addEventListener("click", () => {
               modalEdit.style.display = "flex";
               formUnoEdit.style.opacity = 1;
               formUno.style.display = "flex";
+
               setTimeout(() => {
                 editTitle.value = title;
                 editLocate.value = city;
@@ -224,6 +232,9 @@ openList.addEventListener("click", () => {
                 editBaths.value = baths;
                 editCar.value = garage;
                 editAge.value = old;
+                editDispo.value = dispo;
+                editPiso.value = piso;
+                editOri.value = ori;
                 showDescEdit.innerHTML = desc;
                 descTestEdit = desc;
                 editProp.value = propCat;
@@ -397,9 +408,17 @@ closeList.addEventListener("click", () => {
 closeEdit.addEventListener("click", () => {
   modalEdit.style.opacity = 0;
   menu.style.display = "flex";
+  formUnoEdit.style.display = "flex";
+  formDosEdit.style.opacity = 0;
+  formTresEdit.style.opacity = 0;
+  formCuatroEdit.style.opacity = 0;
   setTimeout(() => {
     modalEdit.style.display = "none";
     menu.style.opacity = 1;
+    formUnoEdit.style.opacity = 1;
+    formDosEdit.style.display = "none";
+    formTresEdit.style.display = "none";
+    formCuatroEdit.style.display = "none";
   }, 500);
 });
 closeUpload.addEventListener("click", () => {
@@ -561,6 +580,9 @@ contador.get().then((doc) => {
     let desc = descTest;
     let propCat = itemProp.value;
     let idFinal = id.id;
+    let ori = itemOri.value;
+    let dispo = itemDispo.value;
+    let piso = itemPiso.value;
     let net = "";
     let elec = "";
     let gas = "";
@@ -592,6 +614,9 @@ contador.get().then((doc) => {
         type: type,
         propCat: propCat,
         desc: desc,
+        ori: ori,
+        piso: piso,
+        dispo: dispo,
         services: {
           Internet: net,
           Electricidad: elec,
