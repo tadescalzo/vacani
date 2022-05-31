@@ -946,7 +946,7 @@ body {
 }
 
 .main--admin__upload #formUno .checkboxes, .main--admin__upload #formDos .checkboxes, .main--admin__upload #formTres .checkboxes, .main--admin__upload #formCuatro .checkboxes {
-  width: 70%;
+  width: 90%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -960,6 +960,13 @@ body {
 
 .main--admin__upload #formUno .checkboxes input, .main--admin__upload #formDos .checkboxes input, .main--admin__upload #formTres .checkboxes input, .main--admin__upload #formCuatro .checkboxes input {
   margin: 0;
+  margin-left: -1.5rem;
+}
+
+.main--admin__upload #formUno .checkboxes label, .main--admin__upload #formDos .checkboxes label, .main--admin__upload #formTres .checkboxes label, .main--admin__upload #formCuatro .checkboxes label {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .main--admin__upload #formUno #addDesc, .main--admin__upload #formDos #addDesc, .main--admin__upload #formTres #addDesc, .main--admin__upload #formCuatro #addDesc {
@@ -1106,7 +1113,7 @@ body {
 }
 
 .main--admin__edit #formUnoEdit .checkboxes, .main--admin__edit #formDosEdit .checkboxes, .main--admin__edit #formTresEdit .checkboxes, .main--admin__edit #formCuatroEdit .checkboxes {
-  width: 70%;
+  width: 90%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1439,6 +1446,10 @@ body {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   margin: 0;
   z-index: 2;
 }
@@ -1451,18 +1462,26 @@ body {
   -webkit-transition: 0.5s;
   transition: 0.5s;
   height: 27px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.footer--media__link a, .footer--info__link a {
+  text-decoration: none;
+  color: var(--main-card);
+}
+
+.footer--media__link a:hover, .footer--info__link a:hover {
+  color: var(--main-card);
 }
 
 .footer--media__link:hover, .footer--info__link:hover {
   border-bottom: 1px solid black;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
   .footer {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
@@ -1475,11 +1494,11 @@ body {
     padding: 0;
   }
   .footer--media, .footer--info {
-    width: 100vw;
+    width: 35%;
   }
   .footer--media__link, .footer--info__link {
     margin: 0;
-    width: 40%;
+    width: 100%;
     text-align: center;
     height: 27px;
   }
