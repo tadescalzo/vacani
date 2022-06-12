@@ -25,13 +25,12 @@ let propFilter = document.querySelector("#barProp");
 let navHome = document.querySelectorAll(".navHome");
 let navBuy = document.querySelector(".navBuy");
 let navAlq = document.querySelector(".navAlq");
-let navSell = document.querySelectorAll(".navSell");
-let navFaq = document.querySelectorAll(".navFaq");
-let navCont = document.querySelectorAll(".navCont");
+let navSell = document.querySelector(".navSell");
+let navFaq = document.querySelector(".navFaq");
+let navCont = document.querySelector(".navCont");
 let closeMobile = document.querySelector(".navbar--mobile__close");
 let menuMobile = document.querySelector(".navbar--mobile__menu");
 let openMobile = document.querySelector(".navbar--mobile");
-let mainTitle = document.querySelector(".main--title");
 let loginBtn = document.querySelector("#login");
 let loginUser = document.querySelector("#user");
 let loginPass = document.querySelector("#password");
@@ -94,13 +93,38 @@ let modalList = document.querySelector(".main--admin__list");
 let modalEdit = document.querySelector(".main--admin__edit");
 let adminList = document.querySelector(".adminList");
 let closeList = document.querySelector(".closeList");
+let deletePhoto = document.querySelector("#deletePhoto");
+let mainTitle = document.querySelector(".main--title");
+let faq = document.querySelector(".faq");
+let cont = document.querySelector(".cont");
 let descTest = "";
 let descTestEdit = "";
 const global = db.collection("global");
 const contador = db.collection("info").doc("contador");
 
 /*FUNCION CARGAR SERVICIOS DENTRO DEL MODAL*/
-const loadInfo = (services, desc) => {
+const loadInfo = (
+  services,
+  desc,
+  id,
+  baths,
+  city,
+  dir,
+  exp,
+  garage,
+  dispo,
+  piso,
+  ori,
+  mets,
+  old,
+  price,
+  rooms,
+  title,
+  type,
+  usedMets,
+  propCat
+) => {
+  let propInfo = document.querySelector("#propInfo");
   let checkboxes = document.querySelector(".modalInfoCheck");
   let modalInfoDesc = document.querySelector(".modalInfoDesc");
   checkboxes.innerHTML = " ";
@@ -110,11 +134,31 @@ const loadInfo = (services, desc) => {
     }
   }
   modalInfoDesc.innerHTML = desc;
+  if (propCat == "Departamento") {
+    propInfo.innerHTML = `<p><i class="fa-solid fa-vector-square"></i> Metros totales: <strong>${mets}</strong></p>
+  <p><i class="fa-solid fa-vector-square"></i> Metros Cubiertos: <strong>${usedMets}</strong></p>
+  <p><i class="fa-solid fa-house"></i> Ambientes: <strong>${rooms}</strong></p>
+  <p><i class="fa-solid fa-car"></i> Cochera: <strong>${garage}</strong></p>
+  <p><i class="fa-solid fa-calendar-days"></i> Antiguedad:<br><strong>${old}</strong></p>
+  <p><i class="fa-solid fa-bath"></i> Ambientes: <strong>${baths}</strong></p>
+  <p><i class="fa-solid fa-money-bill-1-wave"></i> Valor: <strong>${price}</strong></p>
+  <p><i class="fa-solid fa-compass"></i> Disposicion: <strong>${dispo}</strong></p>
+  <p><i class="fa-solid fa-building"></i> Piso: <strong>${piso}</strong></p>
+  <p><i class="fa-solid fa-compass"></i> Orientacion: <strong>${ori}</strong></p>`;
+  } else {
+    propInfo.innerHTML = `<p><i class="fa-solid fa-vector-square"></i> Metros totales: <strong>${mets}</strong></p>
+    <p><i class="fa-solid fa-vector-square"></i> Metros Cubiertos: <strong>${usedMets}</strong></p>
+    <p><i class="fa-solid fa-house"></i> Ambientes: <strong>${rooms}</strong></p>
+    <p><i class="fa-solid fa-car"></i> Cochera: <strong>${garage}</strong></p>
+    <p><i class="fa-solid fa-calendar-days"></i> Antiguedad:<br><strong>${old}</strong></p>
+    <p><i class="fa-solid fa-bath"></i> Ambientes: <strong>${baths}</strong></p>
+    <p><i class="fa-solid fa-money-bill-1-wave"></i> Valor: <strong>${price}</strong></p>`;
+  }
 };
 
-const loadImgs = (id) => {
+const loadImgs = (id, uniqueId) => {
   let carousel = document.getElementById(id);
-  console.log(carousel);
+  let indicators = document.getElementById(uniqueId);
   // Get a reference to the storage service, which is used to create references in your storage bucket
   var storage = firebase.storage();
 
@@ -126,16 +170,13 @@ const loadImgs = (id) => {
   listRef
     .listAll()
     .then((res) => {
-      console.log(res.items.length);
       res.items.forEach((itemRef) => {
         // All the items under listRef.
         let path = itemRef.fullPath;
-        console.log(path);
         storageRef
           .child(path)
           .getDownloadURL()
           .then((url) => {
-            console.log(url);
             if (contador == 0) {
               carousel.innerHTML += `<div class="carousel-item active">
               <img
@@ -144,6 +185,9 @@ const loadImgs = (id) => {
                 alt="..."
               />
               </div>`;
+              indicators.innerHTML += `<button type="button" data-bs-target="#carousel${id}" data-bs-slide-to="${contador}" class="active" aria-current="true" aria-label="Slide ${
+                contador + 1
+              }"></button>`;
             } else {
               carousel.innerHTML += `<div class="carousel-item">
                     <img
@@ -152,6 +196,9 @@ const loadImgs = (id) => {
                       alt="..."
                     />
                     </div>`;
+              indicators.innerHTML += `<button type="button" data-bs-target="#carousel${id}" data-bs-slide-to="${contador}" aria-label="Slide ${
+                contador + 1
+              }"></button>`;
             }
             contador++;
           })
@@ -174,22 +221,24 @@ const clickFunction = (container, mainTitle) => {
     card.addEventListener("click", (e) => {
       let child = e.target;
       let parent = child.parentElement;
-      let dataId = parent.getAttribute("data-item");
-      let reference = db.collection("global").doc(dataId);
-      reference.get().then((doc) => {
-        let queryResult = doc.data();
-        /*SI TOCAMOS LA CARD Y NO ES UNO NI OTRO SE ABRE EL MODAL*/
-        if (
-          child.className == "card--bottom" ||
-          child.className == "carousel-inner"
-        ) {
+      console.log(child.className);
+      /*SI TOCAMOS LA CARD Y NO ES UNO NI OTRO SE ABRE EL MODAL*/
+      if (
+        child.className == "card--bottom" ||
+        child.className == "carousel-inner"
+      ) {
+        container.style.opacity = 0;
+        mainTitle.style.opacity = 0;
+        let dataId = parent.getAttribute("data-item");
+        let reference = db.collection("global").doc(dataId);
+        reference.get().then((doc) => {
+          let queryResult = doc.data();
           modal.style.display = "flex";
           modal.style.opacity = 1;
           modal.innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
-          container.style.opacity = 0;
-          mainTitle.style.opacity = 0;
           header.style.opacity = 0;
           document.documentElement.scrollTop = 0;
+          let uniqueId = doc.id;
           const {
             id,
             baths,
@@ -198,17 +247,18 @@ const clickFunction = (container, mainTitle) => {
             dir,
             exp,
             garage,
-            lat,
-            long,
+            dispo,
+            piso,
+            ori,
             mets,
             old,
             price,
-            mode,
             rooms,
             services,
             title,
             type,
             usedMets,
+            propCat,
           } = queryResult;
           let wppTxt = title.split(" ").join("+");
           wppTxt += `+${dir}`;
@@ -222,7 +272,7 @@ const clickFunction = (container, mainTitle) => {
                   <h2 class="modalTitle">
                     ${title}
                   </h2>
-                  <h5><i class="fa-solid fa-location-dot"></i> ${dir}</h5>
+                  <h5><i class="fa-solid fa-location-dot"></i> ${dir}, ${city}</h5>
                   </div>
                   <div class='upperRight'>
                   <div class='column'>
@@ -238,6 +288,8 @@ const clickFunction = (container, mainTitle) => {
               </div>
                 <div class="modal--upper__imgs">
                   <div id="carousel${id}" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-indicators" id='${uniqueId}'>
+            </div>
                     <div class="carousel-inner" id='${id}'>
                       
                     </div>
@@ -273,13 +325,8 @@ const clickFunction = (container, mainTitle) => {
                   <div class="modalInfo">
                     <span>INFORMACION DE LA PROPIEDAD</span>
                     <hr class="modalInfoLine" />
-                    <div class="modalInfoInd">
-                      <p><i class="fa-solid fa-vector-square"></i> Metros totales: <strong>${mets}</strong></p>
-                      <p><i class="fa-solid fa-vector-square"></i> Metros Cubiertos: <strong>${usedMets}</strong></p>
-                      <p><i class="fa-solid fa-bath"></i> Ambientes: <strong>${rooms}</strong></p>
-                      <p><i class="fa-solid fa-car"></i> Cochera: <strong>${garage}</strong></p>
-                      <p><i class="fa-solid fa-calendar-days"></i> Antiguedad:<br><strong>${old}</strong></p>
-                      <p><i class="fa-solid fa-money-bill-1-wave"></i> Valor: <strong>${price}</strong></p>
+                    <div class="modalInfoInd" id='propInfo'>
+                      
                     </div>
                   </div>
                   <div class="modalInfo">
@@ -338,11 +385,31 @@ const clickFunction = (container, mainTitle) => {
                 modal.innerHTML = "";
               }, 500);
             });
-            loadInfo(services, desc);
-            loadImgs(id);
+            loadInfo(
+              services,
+              desc,
+              id,
+              baths,
+              city,
+              dir,
+              exp,
+              garage,
+              dispo,
+              piso,
+              ori,
+              mets,
+              old,
+              price,
+              rooms,
+              title,
+              type,
+              usedMets,
+              propCat
+            );
+            loadImgs(id, uniqueId);
           }, 600);
-        }
-      });
+        });
+      }
     });
   }
 };
@@ -374,11 +441,16 @@ navAlq.addEventListener("click", (e) => {
     .where("type", "==", "Alquiler")
     .get()
     .then((querySnapshot) => {
-      e.preventDefault();
       menuMobile.style.opacity = 0;
       closeMobile.style.opacity = 0;
+      faq.style.opacity = 0;
+      main.style.display = "flex";
+      header.style.display = "flex";
 
       setTimeout(() => {
+        main.style.opacity = 1;
+        header.style.opacity = 1;
+        faq.style.display = "none";
         menuMobile.style.display = "none";
         closeMobile.style.display = "none";
       }, 300);
@@ -386,13 +458,14 @@ navAlq.addEventListener("click", (e) => {
         top: 320,
         behavior: "smooth",
       });
+      main.innerHTML = `<div class="modal"></div><h2 class="main--title">Alquilar</h2><div class="main--container"></div>`;
       setTimeout(() => {
-        main.innerHTML = `<div class="modal"></div><h2 class="main--title">Alquilar</h2><div class="main--container"></div>`;
-        querySnapshot.forEach((doc) => {
+        let container = document.querySelector(".main--container");
+        let mainTitle = document.querySelector(".main--title");
+        querySnapshot.forEach((item) => {
           /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
-          let result = doc.data();
-          let container = document.querySelector(".main--container");
-          let mainTitle = document.querySelector(".main--title");
+          let prop = item.data();
+          let uniqueId = item.id;
           const {
             id,
             baths,
@@ -412,529 +485,13 @@ navAlq.addEventListener("click", (e) => {
             title,
             type,
             usedMets,
-          } = result;
-          let wppTxt = title.split(" ").join("+");
-          wppTxt += `+${dir}`;
-          container.innerHTML += `<article class="card" data-item=${id}>
-          <div class="card--top">
-            <div id="carousel${id}" data-item=${id} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carousel${id}"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carousel${id}"
-                data-bs-slide="next"
-              >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
-          <div class="card--bottom">
-            <p class="card--bottom__type">
-            ${type}
-            </p>
-            <p class="card--bottom__desc">
-              ${title}
-            </p>
-            <span class="card--bottom__price">${price}</span>
-            ${
-              exp != 0
-                ? `<span class="card--bottom__exp">+${exp}</span>`
-                : `<span class="card--bottom__exp">Sin Expensas</span>`
-            }
-            <div class="card--bottom__line"></div>
-            <div class="card--bottom__info">
-              <p><strong>${mets}</strong> m² totales</p>
-              <p><strong>${baths}</strong> baños</p>
-              <p><strong>${usedMets}</strong> m² cubiertos</p>
-              <p><strong>${rooms}</strong> ambientes</p>
-            </div>
-          </div>
-        </article>`;
-          clickFunction("id", container, mainTitle);
-        }, 500);
-      });
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-      console.log("hay 0 objetos");
-      let container = document.querySelector(".main--container");
-      container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
-    });
-});
-
-/*FILTRO COMPRA*/
-navBuy.addEventListener("click", (e) => {
-  global
-    .where("type", "==", "Venta")
-    .get()
-    .then((querySnapshot) => {
-      e.preventDefault();
-      menuMobile.style.opacity = 0;
-      closeMobile.style.opacity = 0;
-
-      setTimeout(() => {
-        menuMobile.style.display = "none";
-        closeMobile.style.display = "none";
-      }, 300);
-      scroll({
-        top: 320,
-        behavior: "smooth",
-      });
-      setTimeout(() => {
-        main.innerHTML = `<div class="modal"></div><h2 class="main--title">Comprar</h2><div class="main--container"></div>`;
-        querySnapshot.forEach((doc) => {
-          /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
-          let result = doc.data();
-          let container = document.querySelector(".main--container");
-          let mainTitle = document.querySelector(".main--title");
-          const {
-            id,
-            baths,
-            city,
-            desc,
-            dir,
-            exp,
-            garage,
-            lat,
-            long,
-            mets,
-            old,
-            price,
-            mode,
-            rooms,
-            services,
-            title,
-            type,
-            usedMets,
-          } = result;
-          let wppTxt = title.split(" ").join("+");
-          wppTxt += `+${dir}`;
-          container.innerHTML += `<article class="card" data-item=${id}>
-          <div class="card--top">
-            <div id="carousel${id}" data-item=${id} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carousel${id}"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carousel${id}"
-                data-bs-slide="next"
-              >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
-          <div class="card--bottom">
-            <p class="card--bottom__type">
-            ${type}
-            </p>
-            <p class="card--bottom__desc">
-              ${title}
-            </p>
-            <span class="card--bottom__price">${price}</span>
-            ${
-              exp != 0
-                ? `<span class="card--bottom__exp">+${exp}</span>`
-                : `<span class="card--bottom__exp">Sin Expensas</span>`
-            }
-            <div class="card--bottom__line"></div>
-            <div class="card--bottom__info">
-              <p><strong>${mets}</strong> m² totales</p>
-              <p><strong>${baths}</strong> baños</p>
-              <p><strong>${usedMets}</strong> m² cubiertos</p>
-              <p><strong>${rooms}</strong> ambientes</p>
-            </div>
-          </div>
-        </article>`;
-          clickFunction("id", container, mainTitle);
-        }, 500);
-      });
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-      console.log("hay 0 objetos");
-      let container = document.querySelector(".main--container");
-      container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
-    });
-});
-
-/*FILTRO COMPRA*/
-mainBtn.addEventListener("click", (e) => {
-  let type = typeFilter.value;
-  let city = cityFilter.value;
-  let prop = propFilter.value;
-  e.preventDefault();
-  if (city == "Todas") {
-    let query = global.where("type", "==", type).where("propCat", "==", prop);
-    query
-      .get()
-      .then((querySnapshot) => {
-        e.preventDefault();
-        menuMobile.style.opacity = 0;
-        closeMobile.style.opacity = 0;
-        console.log("test");
-        setTimeout(() => {
-          menuMobile.style.display = "none";
-          closeMobile.style.display = "none";
-        }, 300);
-        scroll({
-          top: 320,
-          behavior: "smooth",
-        });
-        setTimeout(() => {
-          main.innerHTML = `<div class="modal"></div><h2 class="main--title">Resultado de: ${type}, ${city}, ${prop} </h2><div class="main--container"></div>`;
-          querySnapshot.forEach((doc) => {
-            /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
-            let result = doc.data();
-            let container = document.querySelector(".main--container");
-            let mainTitle = document.querySelector(".main--title");
-            const {
-              id,
-              baths,
-              city,
-              desc,
-              dir,
-              exp,
-              garage,
-              lat,
-              long,
-              mets,
-              old,
-              price,
-              mode,
-              rooms,
-              services,
-              title,
-              type,
-              usedMets,
-            } = result;
-            let wppTxt = title.split(" ").join("+");
-            wppTxt += `+${dir}`;
-            container.innerHTML += `<article class="card" data-item=${id}>
-          <div class="card--top">
-            <div id="carousel${id}" data-item=${id} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carousel${id}"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carousel${id}"
-                data-bs-slide="next"
-              >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
-          <div class="card--bottom">
-            <p class="card--bottom__type">
-            ${type}
-            </p>
-            <p class="card--bottom__desc">
-              ${title}
-            </p>
-            <span class="card--bottom__price">${price}</span>
-            ${
-              exp != 0
-                ? `<span class="card--bottom__exp">+${exp}</span>`
-                : `<span class="card--bottom__exp">Sin Expensas</span>`
-            }
-            <div class="card--bottom__line"></div>
-            <div class="card--bottom__info">
-              <p><strong>${mets}</strong> m² totales</p>
-              <p><strong>${baths}</strong> baños</p>
-              <p><strong>${usedMets}</strong> m² cubiertos</p>
-              <p><strong>${rooms}</strong> ambientes</p>
-            </div>
-          </div>
-        </article>`;
-            clickFunction("id", container, mainTitle);
-          }, 500);
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-        console.log("hay 0 objetos");
-        let container = document.querySelector(".main--container");
-        container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
-      });
-  } else {
-    let query = global
-      .where("type", "==", type)
-      .where("city", "==", city)
-      .where("propCat", "==", prop);
-    query
-      .get()
-      .then((querySnapshot) => {
-        e.preventDefault();
-        menuMobile.style.opacity = 0;
-        closeMobile.style.opacity = 0;
-        console.log("test");
-        setTimeout(() => {
-          menuMobile.style.display = "none";
-          closeMobile.style.display = "none";
-        }, 300);
-        scroll({
-          top: 320,
-          behavior: "smooth",
-        });
-        setTimeout(() => {
-          main.innerHTML = `<div class="modal"></div><h2 class="main--title">Resultado de: ${type}, ${city}, ${prop} </h2><div class="main--container"></div>`;
-          querySnapshot.forEach((doc) => {
-            /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
-            let result = doc.data();
-            let container = document.querySelector(".main--container");
-            let mainTitle = document.querySelector(".main--title");
-            const {
-              id,
-              baths,
-              city,
-              desc,
-              dir,
-              exp,
-              garage,
-              lat,
-              long,
-              mets,
-              old,
-              price,
-              mode,
-              rooms,
-              services,
-              title,
-              type,
-              usedMets,
-            } = result;
-            let wppTxt = title.split(" ").join("+");
-            wppTxt += `+${dir}`;
-            container.innerHTML += `<article class="card" data-item=${id}>
-          <div class="card--top">
-            <div id="carousel${id}" data-item=${id} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/90277970-0d15-4132-8187-7232723ad98d.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/fb797201-c7f4-4da6-87c5-55836199b77a.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://d1994bulhovht.cloudfront.net/AUTOx1080/listings/a691a2d9-21a4-4eca-b5a9-14f532c91b59/23235dc5-a208-4813-acf5-e11b0143eaa1.webp"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carousel${id}"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carousel${id}"
-                data-bs-slide="next"
-              >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
-          <div class="card--bottom">
-            <p class="card--bottom__type">
-            ${type}
-            </p>
-            <p class="card--bottom__desc">
-              ${title}
-            </p>
-            <span class="card--bottom__price">${price}</span>
-            ${
-              exp != 0
-                ? `<span class="card--bottom__exp">+${exp}</span>`
-                : `<span class="card--bottom__exp">Sin Expensas</span>`
-            }
-            <div class="card--bottom__line"></div>
-            <div class="card--bottom__info">
-              <p><strong>${mets}</strong> m² totales</p>
-              <p><strong>${baths}</strong> baños</p>
-              <p><strong>${usedMets}</strong> m² cubiertos</p>
-              <p><strong>${rooms}</strong> ambientes</p>
-            </div>
-          </div>
-        </article>`;
-            clickFunction("id", container, mainTitle);
-          }, 500);
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-        console.log("hay 0 objetos");
-        let container = document.querySelector(".main--container");
-        container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
-      });
-  }
-});
-
-/*FUNCION MAIN, PETICION DE INFORMACION*/
-global.get().then((querySnapshot) => {
-  querySnapshot.forEach((item) => {
-    let prop = item.data();
-    let uniqueId = item.id;
-    const {
-      id,
-      baths,
-      city,
-      desc,
-      dir,
-      exp,
-      garage,
-      lat,
-      long,
-      mets,
-      old,
-      price,
-      mode,
-      rooms,
-      services,
-      title,
-      type,
-      usedMets,
-    } = prop;
-    container.innerHTML += `<article class="card" data-item=${uniqueId}>
+          } = prop;
+          container.innerHTML = `<article class="card" data-item=${uniqueId}>
           <div class="card--top">
             <div id="carousel${id}" data-item=${uniqueId} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
-              <div class="carousel-inner" id='${id}'>
+            <div class="carousel-indicators" id='${uniqueId}'>
+            </div>
+            <div class="carousel-inner" id='${id}'>
                 
               </div>
               <button
@@ -985,10 +542,529 @@ global.get().then((querySnapshot) => {
             </div>
           </div>
         </article>`;
-    /*FUNCION CLICK*/
-    clickFunction(container, mainTitle);
-    setTimeout(() => {
-      loadImgs(id);
-    }, 500);
-  });
+          /*FUNCION CLICK*/
+          clickFunction(container, mainTitle);
+          setTimeout(() => {
+            loadImgs(id, uniqueId);
+          }, 500);
+        }, 500);
+      }, 600);
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+      container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
+    });
 });
+
+/*FILTRO COMPRA*/
+navBuy.addEventListener("click", (e) => {
+  global
+    .where("type", "==", "Venta")
+    .get()
+    .then((querySnapshot) => {
+      e.preventDefault();
+      menuMobile.style.opacity = 0;
+      closeMobile.style.opacity = 0;
+      faq.style.opacity = 0;
+      main.style.display = "flex";
+      header.style.display = "flex";
+
+      setTimeout(() => {
+        main.style.opacity = 1;
+        header.style.opacity = 1;
+        faq.style.display = "none";
+        menuMobile.style.display = "none";
+        closeMobile.style.display = "none";
+      }, 300);
+      scroll({
+        top: 320,
+        behavior: "smooth",
+      });
+      main.innerHTML = `<div class="modal"></div><h2 class="main--title">Venta</h2><div class="main--container"></div>`;
+      setTimeout(() => {
+        let container = document.querySelector(".main--container");
+        let mainTitle = document.querySelector(".main--title");
+        querySnapshot.forEach((item) => {
+          /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
+          let prop = item.data();
+          let uniqueId = item.id;
+          const {
+            id,
+            baths,
+            city,
+            desc,
+            dir,
+            exp,
+            garage,
+            lat,
+            long,
+            mets,
+            old,
+            price,
+            mode,
+            rooms,
+            services,
+            title,
+            type,
+            usedMets,
+          } = prop;
+          container.innerHTML += `<article class="card" data-item=${uniqueId}>
+          <div class="card--top">
+            <div id="carousel${id}" data-item=${uniqueId} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
+            <div class="carousel-indicators" id='${uniqueId}'>
+            </div>
+            <div class="carousel-inner" id='${id}'>
+                
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div class="card--bottom">
+            <p class="card--bottom__type">
+            ${type}
+            </p>
+            <p class="card--bottom__desc">
+              ${title}
+            </p>
+            <span class="card--bottom__price">${price}</span>
+            ${
+              exp != 0
+                ? `<span class="card--bottom__exp">+${exp}</span>`
+                : `<span class="card--bottom__exp">Sin Expensas</span>`
+            }
+            <div class="card--bottom__line"></div>
+            <div class="card--bottom__info">
+              <p><strong>${mets}</strong> m² totales</p>
+              <p><strong>${baths}</strong> baños</p>
+              <p><strong>${usedMets}</strong> m² cubiertos</p>
+              <p><strong>${rooms}</strong> ambientes</p>
+            </div>
+          </div>
+                                  </article>`;
+          /*FUNCION CLICK*/
+          clickFunction(container, mainTitle);
+          setTimeout(() => {
+            loadImgs(id, uniqueId);
+          }, 500);
+        }, 500);
+      }, 600);
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+      container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
+    });
+});
+
+/*FILTRO COMPRA*/
+mainBtn.addEventListener("click", (e) => {
+  let type = typeFilter.value;
+  let city = cityFilter.value;
+  let prop = propFilter.value;
+  e.preventDefault();
+  if (city == "Todas") {
+    let query = global.where("type", "==", type).where("propCat", "==", prop);
+    query
+      .get()
+      .then((querySnapshot) => {
+        e.preventDefault();
+        menuMobile.style.opacity = 0;
+        closeMobile.style.opacity = 0;
+        faq.style.opacity = 0;
+        main.style.display = "flex";
+        header.style.display = "flex";
+
+        setTimeout(() => {
+          main.style.opacity = 1;
+          header.style.opacity = 1;
+          faq.style.display = "none";
+          menuMobile.style.display = "none";
+          closeMobile.style.display = "none";
+        }, 300);
+        scroll({
+          top: 320,
+          behavior: "smooth",
+        });
+        main.innerHTML = `<div class="modal"></div>
+        <div class="main--title">Resultado para:
+        <span><i class="fa-solid fa-house-chimney"></i>${prop}</span>
+        <span><i class="fa-solid fa-file-signature"></i>${type}</span>
+        <span><i class="fa-solid fa-map"></i>${city}</span>
+        </div>
+        <div class="main--container"></div>`;
+        setTimeout(() => {
+          let container = document.querySelector(".main--container");
+          let mainTitle = document.querySelector(".main--title");
+          querySnapshot.forEach((item) => {
+            /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
+            let prop = item.data();
+            let uniqueId = item.id;
+            const {
+              id,
+              baths,
+              city,
+              desc,
+              dir,
+              exp,
+              garage,
+              lat,
+              long,
+              mets,
+              old,
+              price,
+              mode,
+              rooms,
+              services,
+              title,
+              type,
+              usedMets,
+            } = prop;
+            container.innerHTML += `<article class="card" data-item=${uniqueId}>
+          <div class="card--top">
+            <div id="carousel${id}" data-item=${uniqueId} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
+            <div class="carousel-indicators" id='${uniqueId}'>
+            </div>
+            <div class="carousel-inner" id='${id}'>
+                
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div class="card--bottom">
+            <p class="card--bottom__type">
+            ${type}
+            </p>
+            <p class="card--bottom__desc">
+              ${title}
+            </p>
+            <span class="card--bottom__price">${price}</span>
+            ${
+              exp != 0
+                ? `<span class="card--bottom__exp">+${exp}</span>`
+                : `<span class="card--bottom__exp">Sin Expensas</span>`
+            }
+            <div class="card--bottom__line"></div>
+            <div class="card--bottom__info">
+              <p><strong>${mets}</strong> m² totales</p>
+              <p><strong>${baths}</strong> baños</p>
+              <p><strong>${usedMets}</strong> m² cubiertos</p>
+              <p><strong>${rooms}</strong> ambientes</p>
+            </div>
+          </div>
+                                  </article>`;
+            /*FUNCION CLICK*/
+            clickFunction(container, mainTitle);
+            setTimeout(() => {
+              loadImgs(id, uniqueId);
+            }, 500);
+          }, 500);
+        }, 600);
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+        let container = document.querySelector(".main--container");
+        container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
+      });
+  } else {
+    let query = global
+      .where("type", "==", type)
+      .where("city", "==", city)
+      .where("propCat", "==", prop);
+    query
+      .get()
+      .then((querySnapshot) => {
+        e.preventDefault();
+        menuMobile.style.opacity = 0;
+        closeMobile.style.opacity = 0;
+        faq.style.opacity = 0;
+        main.style.display = "flex";
+        header.style.display = "flex";
+
+        setTimeout(() => {
+          main.style.opacity = 1;
+          header.style.opacity = 1;
+          faq.style.display = "none";
+          menuMobile.style.display = "none";
+          closeMobile.style.display = "none";
+        }, 300);
+        scroll({
+          top: 320,
+          behavior: "smooth",
+        });
+        main.innerHTML = `<div class="modal"></div>
+        <div class="main--title">Resultado para:
+        <span><i class="fa-solid fa-house-chimney"></i>${prop}</span>
+        <span><i class="fa-solid fa-file-signature"></i>${type}</span>
+        <span><i class="fa-solid fa-map"></i>${city}</span>
+        </div>
+        <div class="main--container"></div>`;
+        setTimeout(() => {
+          let container = document.querySelector(".main--container");
+          let mainTitle = document.querySelector(".main--title");
+          querySnapshot.forEach((item) => {
+            /*CARGA EN PANTALLA DE RESULTADOS DEL FILTRO*/
+            let prop = item.data();
+            let uniqueId = item.id;
+            const {
+              id,
+              baths,
+              city,
+              desc,
+              dir,
+              exp,
+              garage,
+              lat,
+              long,
+              mets,
+              old,
+              price,
+              mode,
+              rooms,
+              services,
+              title,
+              type,
+              usedMets,
+            } = prop;
+            container.innerHTML += `<article class="card" data-item=${uniqueId}>
+          <div class="card--top">
+            <div id="carousel${id}" data-item=${uniqueId} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
+            <div class="carousel-indicators" id='${uniqueId}'>
+            </div>
+            <div class="carousel-inner" id='${id}'>
+                
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div class="card--bottom">
+            <p class="card--bottom__type">
+            ${type}
+            </p>
+            <p class="card--bottom__desc">
+              ${title}
+            </p>
+            <span class="card--bottom__price">${price}</span>
+            ${
+              exp != 0
+                ? `<span class="card--bottom__exp">+${exp}</span>`
+                : `<span class="card--bottom__exp">Sin Expensas</span>`
+            }
+            <div class="card--bottom__line"></div>
+            <div class="card--bottom__info">
+              <p><strong>${mets}</strong> m² totales</p>
+              <p><strong>${baths}</strong> baños</p>
+              <p><strong>${usedMets}</strong> m² cubiertos</p>
+              <p><strong>${rooms}</strong> ambientes</p>
+            </div>
+          </div>
+                                  </article>`;
+            /*FUNCION CLICK*/
+            clickFunction(container, mainTitle);
+            setTimeout(() => {
+              loadImgs(id, uniqueId);
+            }, 500);
+          }, 500);
+        }, 600);
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+        let container = document.querySelector(".main--container");
+        container.innerHTML = `<p>No hay resultados para tu busqueda</p>`;
+      });
+  }
+});
+
+/*FUNCION MAIN, PETICION DE 3 PROPIEDADES*/
+global
+  .orderBy("id", "desc")
+  .limit(3)
+  .get()
+  .then((querySnapshot) => {
+    querySnapshot.forEach((item) => {
+      let prop = item.data();
+      let uniqueId = item.id;
+      const {
+        id,
+        baths,
+        city,
+        desc,
+        dir,
+        exp,
+        garage,
+        lat,
+        long,
+        mets,
+        old,
+        price,
+        mode,
+        rooms,
+        services,
+        title,
+        type,
+        usedMets,
+      } = prop;
+      container.innerHTML += `<article class="card" data-item=${uniqueId}>
+          <div class="card--top">
+            <div id="carousel${id}" data-item=${uniqueId} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
+            <div class="carousel-indicators" id='${uniqueId}'>
+            </div>
+            <div class="carousel-inner" id='${id}'>
+                
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carousel${id}"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div class="card--bottom">
+            <p class="card--bottom__type">
+            ${type}
+            </p>
+            <p class="card--bottom__desc">
+              ${title}
+            </p>
+            <span class="card--bottom__price">${price}</span>
+            ${
+              exp != 0
+                ? `<span class="card--bottom__exp">+${exp}</span>`
+                : `<span class="card--bottom__exp">Sin Expensas</span>`
+            }
+            <div class="card--bottom__line"></div>
+            <div class="card--bottom__info">
+              <p><strong>${mets}</strong> m² totales</p>
+              <p><strong>${baths}</strong> baños</p>
+              <p><strong>${usedMets}</strong> m² cubiertos</p>
+              <p><strong>${rooms}</strong> ambientes</p>
+            </div>
+          </div>
+        </article>`;
+      /*FUNCION CLICK*/
+      clickFunction(container, mainTitle);
+      setTimeout(() => {
+        loadImgs(id, uniqueId);
+      }, 500);
+    });
+  });
+
+/*FAQ*/
+
+navFaq.addEventListener("click", () => {
+  main.style.opacity = 0;
+  header.style.opacity = 0;
+  cont.style.opacity = 0;
+  faq.style.display = "flex";
+  setTimeout(() => {
+    faq.style.opacity = 1;
+    cont.style.display = "none";
+    main.style.display = "none";
+    header.style.display = "none";
+  }, 500);
+});
+
+/*CONTACTO NAV*/
+navCont.addEventListener("click", () => {
+  main.style.opacity = 0;
+  header.style.opacity = 0;
+  faq.style.opacity = 0;
+  cont.style.display = "flex";
+  setTimeout(() => {
+    cont.style.opacity = 1;
+    faq.style.display = "none";
+    main.style.display = "none";
+    header.style.display = "none";
+  }, 500);
+});
+
+var randomnumber = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
+let url = `images/${randomnumber}.jpg`;
+console.log(url);
+header.style.backgroundImage = `url('${url}')`;

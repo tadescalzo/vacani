@@ -156,6 +156,9 @@ openList.addEventListener("click", () => {
           title,
           type,
           usedMets,
+          ori,
+          piso,
+          dispo,
         } = prop;
         adminList.innerHTML += `<li class="listItem" data-id="${uniqueId}">
           <h4 class="listId">ID: ${id}</h4>
@@ -297,6 +300,27 @@ openList.addEventListener("click", () => {
                   formTresEdit.style.display = "none";
                   formCuatroEdit.style.display = "flex";
                 }, 500);
+                /*SUBIR FOTO*/
+                editPhoto.addEventListener("change", (e) => {
+                  let file = {};
+                  file = e.target.files;
+                  // 'file' comes from the Blob or File API
+                  addPhotoEdit.addEventListener("click", () => {
+                    for (fileInd of file) {
+                      console.log(fileInd);
+                      let ref = storage.ref(id + "/" + fileInd.name + ".jpg");
+                      ref.put(fileInd).then((snapshot) => {
+                        Swal.fire({
+                          position: "top",
+                          icon: "success",
+                          title: "Foto cargada",
+                          showConfirmButton: false,
+                          timer: 1500,
+                        });
+                      });
+                    }
+                  });
+                });
               });
               /*FOURTH CONFIRM UPLOAD*/
               submitEdit4.addEventListener("click", () => {
@@ -364,28 +388,52 @@ openList.addEventListener("click", () => {
                       showConfirmButton: false,
                       timer: 1500,
                     });
+                    setTimeout(() => {
+                      location.reload();
+                    }, 500);
                   })
                   .catch((error) => {
                     console.error("Error adding document: ", error);
                   });
+              });
 
-                editTitle.value = "";
-                editLocate.value = "";
-                editType.value = "";
-                editPrice.value = "";
-                editExp.value = "";
-                editMets.value = "";
-                editUsedmets.value = "";
-                editRooms.value = "";
-                editCar.value = "";
-                editAge.value = "";
-                editDesc.value = "";
-                setTimeout(() => {
-                  formCuatroEdit.style.display = "none";
-                  modalEdit.style.display = "none";
-                  menu.style.display = "flex";
-                  menu.style.opacity = 1;
-                }, 500);
+              deletePhoto.addEventListener("click", () => {
+                // Get a reference to the storage service, which is used to create references in your storage bucket
+                var storage = firebase.storage();
+
+                // Create a storage reference from our storage service
+                var storageRef = storage.ref();
+                var listRef = storageRef.child(`${id}`);
+                // Find all the prefixes and items.
+                listRef
+                  .listAll()
+                  .then((res) => {
+                    res.items.forEach((itemRef) => {
+                      // All the items under listRef.
+                      console.log(itemRef.name);
+                      let name = itemRef.name;
+                      var desertRef = storageRef.child(`${id}/${name}`);
+                      // Delete the file
+                      desertRef
+                        .delete()
+                        .then(() => {
+                          // File deleted successfully
+                          Swal.fire({
+                            position: "top",
+                            icon: "success",
+                            title: "Fotos eliminadas",
+                            showConfirmButton: false,
+                            timer: 1500,
+                          });
+                        })
+                        .catch((error) => {
+                          // Uh-oh, an error occurred!
+                        });
+                    });
+                  })
+                  .catch((error) => {
+                    // Uh-oh, an error occurred!
+                  });
               });
             });
           });
@@ -473,6 +521,7 @@ contador.get().then((doc) => {
   openUpload.addEventListener("click", () => {
     menu.style.opacity = 0;
     uploadModal.style.opacity = 1;
+    formUno.style.display = "flex";
     setTimeout(() => {
       menu.style.display = "none";
       formUno.style.opacity = 1;
@@ -544,20 +593,22 @@ contador.get().then((doc) => {
   /*SUBIR FOTO*/
   itemPhoto.addEventListener("change", (e) => {
     let file = {};
-    file = e.target.files[0];
+    file = e.target.files;
     // 'file' comes from the Blob or File API
     addPhoto.addEventListener("click", () => {
-      let testImg = document.querySelector("#testImg");
-      let ref = storage.ref(id.id + "/" + file.name + ".jpg");
-      ref.put(file).then((snapshot) => {
-        Swal.fire({
-          position: "top",
-          icon: "success",
-          title: "Foto cargada",
-          showConfirmButton: false,
-          timer: 1500,
+      for (fileInd of file) {
+        console.log(fileInd);
+        let ref = storage.ref(id.id + "/" + fileInd.name + ".jpg");
+        ref.put(fileInd).then((snapshot) => {
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "Foto cargada",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         });
-      });
+      }
     });
   });
 
@@ -583,6 +634,7 @@ contador.get().then((doc) => {
     let ori = itemOri.value;
     let dispo = itemDispo.value;
     let piso = itemPiso.value;
+    console.log(ori, dispo, piso);
     let net = "";
     let elec = "";
     let gas = "";
@@ -642,29 +694,15 @@ contador.get().then((doc) => {
           .update({
             id: idFinal,
           })
-          .then(() => {});
+          .then(() => {
+            setTimeout(() => {
+              location.reload();
+            }, 2000);
+          });
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
-
-    itemTitle.value = "";
-    itemLocate.value = "";
-    itemType.value = "";
-    itemPrice.value = "";
-    itemExp.value = "";
-    itemMets.value = "";
-    itemUsedmets.value = "";
-    itemRooms.value = "";
-    itemCar.value = "";
-    itemAge.value = "";
-    itemDesc.value = "";
-    setTimeout(() => {
-      formCuatro.style.display = "none";
-      uploadModal.style.display = "none";
-      menu.style.display = "flex";
-      menu.style.opacity = 1;
-    }, 500);
   });
 });
 

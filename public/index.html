@@ -4,8 +4,29 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Propiedades Vacani Test</title>
+    <title>Propiedades Vacani</title>
     <link rel="icon" href="images/logoReduc.svg" />
+    <!-- Primary Meta Tags -->
+<title>Vacani propiedades</title>
+<meta name="title" content="Vacani propiedades">
+<meta name="description" content="Somos Vacani Propiedades, una empresa familiar con más de 15 años de trayectoria en el rubro inmobiliario.
+Somos un equipo experto y dedicado que se encuentra en constante crecimiento.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vacanipropiedades.com.ar/">
+<meta property="og:title" content="Vacani propiedades">
+<meta property="og:description" content="Somos Vacani Propiedades, una empresa familiar con más de 15 años de trayectoria en el rubro inmobiliario.
+Somos un equipo experto y dedicado que se encuentra en constante crecimiento.">
+<meta property="og:image" content="">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://vacanipropiedades.com.ar/">
+<meta property="twitter:title" content="Vacani propiedades">
+<meta property="twitter:description" content="Somos Vacani Propiedades, una empresa familiar con más de 15 años de trayectoria en el rubro inmobiliario.
+Somos un equipo experto y dedicado que se encuentra en constante crecimiento.">
+<meta property="twitter:image" content="">
     <script
       src="https://kit.fontawesome.com/e5e4422258.js"
       crossorigin="anonymous"
@@ -27,13 +48,15 @@
   <body id="body">
     <nav class="navbar">
       <div class="navbar--left">
-        <img src="images/logoNav.svg" alt="logo de vacani" />
+        <a href="index.html">
+          <img src="images/logoNav.svg" alt="logo de vacani" />
+        </a>
       </div>
       <ul class="navbar--center">
         <a href="index.html" class="navHome"><li>Home</li></a>
         <a href="#" class="navBuy"><li>Comprar</li></a>
         <a href="#" class="navAlq"><li>Alquilar</li></a>
-        <a href="faq.html" class="navFaq"><li>¿Quienes somos?</li></a>
+        <a href="#" class="navFaq"><li>¿Quienes somos?</li></a>
         <a href="#" class="navCont"><li>Contacto</li></a>
       </ul>
       <div class="navbar--mobile">
@@ -84,6 +107,70 @@
       <h2 class="main--title">Ultimas publicaciones</h2>
       <div class="main--container"></div>
     </main>
+    <div class="faq">
+      <div class="mainFaqText">
+        <h3>QUIENES SOMOS</h3>
+        <span
+          >Somos <strong>Vacani Propiedades</strong>, una empresa familiar con
+          más de <strong>15 años de trayectoria</strong> en el rubro
+          inmobiliario.
+          <br />
+          Somos un equipo experto y dedicado que se encuentra en constante
+          crecimiento.
+        </span>
+        <h3>MISIÓN</h3>
+        <span>
+          Nuestra <strong>prioridad</strong> es que tu experiencia con
+          nosotros cumpla con los mayores estándares de
+          <strong>calidad </strong>y <strong> satisfacción</strong>. Es por
+          ello que nuestra misión, es brindar un servicio de asesoría
+          inmobiliaria <strong>personalizada</strong> y orientada a cumplir
+          100% con las exigencias de nuestros clientes, siendo el puente que
+          conecta proyectos y sueños con realidades posibles.
+        </span>
+        <span>
+          <i>¿Cómo lo hacemos?</i> Poniendo al cliente en el centro en cada
+          una de nuestras decisiones, trabajando con ética profesional,
+          responsabilidad, honestidad y compromiso en todas las etapas de
+          asesoramiento, venta, compra o alquiler.
+        </span>
+      </div>
+      <img
+        src="images/faq.jpg"
+        alt="Frente de Oficina Propiedades Vacani"
+        class="mainFaqImg"
+      />
+    </div>
+    <div class="cont">
+      <div class="cont--side">
+        <h2 class="cont--title">
+          ¡Contactanos!
+        </h2>
+        <span class="formText">
+          Envianos tu consulta por tasaciones, inmuebles publicados, agendar una reunion en nuestra oficina y mas! 
+        </span>
+      </div>
+      <form class="main--cont__form" action="submit">
+                  <label for="submitName">Nombre y apellido:</label>
+                  <input type="text" id="submitName" />
+                  <label for="submitMail">Mail de contacto:</label>
+                  <input type="email" id="submitMail" />
+                  <label for="submitPhone">Telefono de contacto:</label>
+                  <input type="text" id="submitPhone" />
+                  <input
+                    type="button"
+                    value="Enviar Consulta"
+                    id="submitBtn"
+                  />
+                  <a
+                    href="https://api.whatsapp.com/send/?phone=5491130105048&text=Hola+les+hablo+para+consultar+sobre"
+                    id="wppBtn"
+                    target="_blank"
+                    >Enviar Whatsapp</a
+                  >
+                  <img src="images/logoNav.svg" alt="" />
+      </form>
+    </div>
     <footer class="footer">
       <ul class="footer--media">
         <li class="footer--media__link">
@@ -110,6 +197,7 @@
       <ul class="footer--info">
         <li class="footer--info__link">
           <i class="fa-solid fa-location-dot"></i><a href="https://www.google.com.ar/maps/place/vacani+propiedades/@-34.4548107,-58.5377243,19z/data=!3m1!4b1!4m5!3m4!1s0x95bcafe67eed44d1:0x315929b93913b665!8m2!3d-34.4548118!4d-58.5371771" target="_blank"> Av. Peron 3433, Victoria</a>
+          <li class="footer--info__link">CMCPSI Nº6742</li>
         </li>
       </ul>
     </footer>
@@ -124,10 +212,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHrrGwcfCdLplj9F2LMkRx9rAMw9wnjhc"
-      defer
-    ></script>
     <script src="app.js"></script>
   </body>
 </html>
