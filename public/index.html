@@ -66,7 +66,7 @@ Somos un equipo experto y dedicado que se encuentra en constante crecimiento.">
           <a href="index.html" class="navHome"><li>Home</li></a>
           <a href="#" class="navBuy"><li>Comprar</li></a>
           <a href="#" class="navAlq"><li>Alquilar</li></a>
-          <a href="faq.html" class="navFaq"><li>¿Quienes somos?</li></a>
+          <a href="#" class="navFaq"><li>¿Quienes somos?</li></a>
           <a href="#" class="navCont"><li>Contacto</li></a>
         </ul>
       </div>
@@ -151,20 +151,22 @@ Somos un equipo experto y dedicado que se encuentra en constante crecimiento.">
         </span>
       </div>
       <form class="main--cont__form" action="submit">
-                  <label for="submitName">Nombre y apellido:</label>
-                  <input type="text" id="submitName" />
-                  <label for="submitMail">Mail de contacto:</label>
-                  <input type="email" id="submitMail" />
-                  <label for="submitPhone">Telefono de contacto:</label>
-                  <input type="text" id="submitPhone" />
+                  <label for="submitNameCont">Nombre y apellido:</label>
+                  <input type="text" id="submitNameCont" />
+                  <label for="submitMailCont">Mail de contacto:</label>
+                  <input type="email" id="submitMailCont" />
+                  <label for="submitPhoneCont">Telefono de contacto:</label>
+                  <input type="text" id="submitPhoneCont" />
+                  <label for="submitTextCont">Consulta</label>
+                  <input type="text" id="submitTextCont">
                   <input
                     type="button"
                     value="Enviar Consulta"
-                    id="submitBtn"
+                    id="submitBtnCont"
                   />
                   <a
                     href="https://api.whatsapp.com/send/?phone=5491130105048&text=Hola+les+hablo+para+consultar+sobre"
-                    id="wppBtn"
+                    id="wppBtnCont"
                     target="_blank"
                     >Enviar Whatsapp</a
                   >
@@ -174,24 +176,29 @@ Somos un equipo experto y dedicado que se encuentra en constante crecimiento.">
     <footer class="footer">
       <ul class="footer--media">
         <li class="footer--media__link">
-          <i class="fa-brands fa-instagram"></i
-          ><a href="https://www.instagram.com/vacanipropiedades/?hl=es"></a>
-            Instagram</a
-          >
+          <a href="https://www.instagram.com/vacanipropiedades/?hl=es" target="_blank">
+          <i class="fa-brands fa-instagram"></i> Instagram</a>
         </li>
         <li class="footer--media__link">
-          <i class="fa-brands fa-facebook-f"></i> Facebook
+          <a href="https://www.facebook.com/Vacani-Propiedades-722425641471943" target="_blank">
+            <i class="fa-brands fa-facebook-f"></i> Facebook</a>
         </li>
       </ul>
       <ul class="footer--info">
         <li class="footer--info__link">
-          <i class="fa-brands fa-whatsapp"></i> 15 3010 5048
+          <a href="https://api.whatsapp.com/send/?phone=5491130105048">
+            <i class="fa-brands fa-whatsapp"></i> 15 3010 5048
+          </a>
         </li>
         <li class="footer--info__link">
-          <i class="fa-solid fa-phone"></i> 4746-7574 / 0292
+          <a href="tel:4746-7574">
+            <i class="fa-solid fa-phone"></i> 4746-7574 / 0292
+          </a>
         </li>
         <li class="footer--info__link">
-          <i class="fa-solid fa-envelope"></i> vacaniprop@hotmail.com
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=vacaniprop@hotmail.com" target="_blank">
+              <i class="fa-solid fa-envelope"></i> vacaniprop@hotmail.com
+            </a>
         </li>
       </ul>
       <ul class="footer--info">
@@ -212,6 +219,7 @@ Somos un equipo experto y dedicado que se encuentra en constante crecimiento.">
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
