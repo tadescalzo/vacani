@@ -523,7 +523,7 @@ for (btns of navAlq) {
               type,
               usedMets,
             } = prop;
-            container.innerHTML = `<article class="card" data-item=${uniqueId}>
+            container.innerHTML += `<article class="card" data-item=${uniqueId}>
             <div class="card--top">
               <div id="carousel${id}" data-item=${uniqueId} class="carousel slide" data-bs-ride="carousel" data-bs-interval="false" data-pause="hover">
               <div class="carousel-indicators" id='${uniqueId}'>
